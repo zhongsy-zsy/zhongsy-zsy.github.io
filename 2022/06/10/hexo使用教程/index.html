@@ -10,10 +10,10 @@
   
   
   <!-- Open Graph Data -->
-  <meta property="og:title" content="Hello World"/>
+  <meta property="og:title" content="Hexo"/>
   <meta property="og:description" content="" />
   <meta property="og:site_name" content="Hexo"/>
-  <meta property="og:type" content="article" />
+  <meta property="og:type" content="website" />
   <meta property="og:image" content="http://example.com"/>
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -108,7 +108,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-title with-background-image">
-          <p class="title">Hello World</p>
+          <p class="title">Untitled Post</p>
           <p class="subtitle"></p>
         </div>
       </div>
@@ -127,7 +127,7 @@
           
           <!-- Date -->
           <span class="date-time info">On
-            <span class="date">2022-06-10T17:38:00+08:00</span>
+            <span class="date">2022-06-10T18:47:15+08:00</span>
             <!--<span class="date">2022-06-10</span>
             <span class="time">19:33:36</span> -->
           </span>
@@ -137,19 +137,17 @@
         
         <!-- Post Main Content -->
         <div class="post-content">
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+          <h1 id="Hexo使用教程"><a href="#Hexo使用教程" class="headerlink" title="Hexo使用教程"></a>Hexo使用教程</h1><p>[toc]</p>
+<h2 id="创建与发布文章"><a href="#创建与发布文章" class="headerlink" title="创建与发布文章"></a>创建与发布文章</h2><blockquote>
+<p>hexo new 文章名</p>
+<p>hexo deploy -g 部署</p>
+</blockquote>
+<h2 id="删除文章"><a href="#删除文章" class="headerlink" title="删除文章"></a>删除文章</h2><blockquote>
+<p>直接在source&#x2F;_post文件目录下删除文章，再只想 hexo d -g</p>
+</blockquote>
+<h2 id="theme更改"><a href="#theme更改" class="headerlink" title="theme更改"></a>theme更改</h2><p>首先将自己喜欢的主题下载到theme目录下。</p>
+<p>有两个设置，一个在hexo主目录下面，配置使用哪一个主题(theme字段)，theme目录下面有具体的主题文件，当中含有一个配置文件用于配置细节。</p>
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>在 <code>hexo init</code>目录下只想 nmp install xxx –save进行安装</p>
 
         </div>
         <!-- Comments -->
