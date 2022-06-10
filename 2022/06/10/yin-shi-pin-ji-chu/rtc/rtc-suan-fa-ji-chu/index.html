@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hexo使用教程, zhongsy_world">
+    <meta name="keywords" content="post, zhongsy_world">
     <meta name="description" content="分享日常学习文档以及资料">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hexo使用教程 | zhongsy_world</title>
+    <title>post | zhongsy_world</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hexo使用教程</h1>
+                    <h1 class="description center-align post-title">post</h1>
                 </div>
             </div>
         </div>
@@ -429,29 +429,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/hexo/">
-                                <span class="chip bg-color">hexo</span>
-                            </a>
-                        
-                            <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                                <span class="chip bg-color">工具</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
-                                工具
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -460,7 +443,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-06-12
+                    2022-06-10
                 </div>
                 
 
@@ -481,71 +464,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1><span id="hexo使用教程">Hexo使用教程</span></h1><!-- ttoc -->
-
-<h2><span id="创建与发布文章">创建与发布文章</span></h2><blockquote>
-<p>hexo new 文章名</p>
-<p>hexo deploy -g 部署</p>
-</blockquote>
-<h2><span id="删除文章">删除文章</span></h2><blockquote>
-<p>直接在source&#x2F;_post文件目录下删除文章，再只想 hexo d -g</p>
-</blockquote>
-<h2><span id="theme更改">theme更改</span></h2><p>首先将自己喜欢的主题下载到theme目录下。</p>
-<p>有两个设置，一个在hexo主目录下面，配置使用哪一个主题(theme字段)，theme目录下面有具体的主题文件，当中含有一个配置文件用于配置细节。</p>
-<p><a target="_blank" rel="noopener" href="http://blinkfox.com/2018/09/28/qian-duan/hexo-bo-ke-zhu-ti-zhi-hexo-theme-matery-de-jie-shao/">主题推荐</a></p>
-<p><a target="_blank" rel="noopener" href="http://blinkfox.com/2018/09/28/qian-duan/hexo-bo-ke-zhu-ti-zhi-hexo-theme-matery-de-jie-shao/#toc-heading-19">主题使用手册</a></p>
-<h2><span id="安装依赖">安装依赖</span></h2><p>在 <code>hexo init</code>目录下只想 nmp install xxx –save进行安装</p>
-<h2><span id="搭建">搭建</span></h2><ol>
-<li>注册github账号</li>
-<li>新建仓库，注意仓库的名称必须为 用户名.github.io</li>
-<li>初始化仓库 hexo init 文件夹</li>
-<li>hexo d -g 之后打开浏览器访问 用户名.git</li>
-</ol>
-<h3><span id="配置评论功能">配置评论功能</span></h3><p>使用valline配置评论功能。</p>
-<ol>
-<li>首先去valline官网注册一个账号。</li>
-<li>应用中的设置中点击应用凭证，获取AppID AppKey</li>
-<li>然后去_config.yaml上进行配置</li>
-</ol>
-<pre class=" language-c++"><code class="language-c++">valine:
-  enable: true # 设置为true，默认为false
-  appid:  # 将应用key的App ID设置在这里
-  appkey: # 将应用key的App Key设置在这里
-  notify: false# 邮箱通知 , https://github.com/xCss/Valine/wiki，默认为false
-  verify: false# 验证码 默认为false
-  placeholder: Just go go ^_^ # 初始化评论显示，根据自己修改，这里默认，
-  avatar: monsterid # 头像风格，默认为mm，可进入网址：https://valine.js.org/visitor.html查看头像设置，这里有许多头像风格，进行设置
-  guest_info: nick,mail,link # 自定义评论标题
-  pageSize: 10 # 分页大小，10页就自动分页
-  visitor: true # 是否允许游客评论 ，进入官网查看设置：https://valine.js.org/visitor.html
-</code></pre>
-<p>最后效果如下：</p>
-<img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/image-20220610210620831.png" alt="image-20220610210620831" style="zoom:33%;">
-
-<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1965154">更多配置</a></p>
-<h2><span id="自定义域名">自定义域名</span></h2><p>可以花点钱去定义自己的域名，而不需要.github.io了</p>
-<p>具体操作如下</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Qxiaofei_/article/details/124607458?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165486692316780366521224%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=165486692316780366521224&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-3-124607458-null-null.142%5Ev13%5Econtrol,157%5Ev14%5Econtrol&utm_term=hexo%E9%98%BF%E9%87%8C%E4%BA%91%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90&spm=1018.2226.3001.4187">域名自定义操作</a></p>
-<h2><span id="写文章">写文章</span></h2><h3><span id="配置图床">配置图床</span></h3><p>picgo + 阿里云 + typora</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/104152479">配置教程</a></p>
-<h2><span id="插件推荐">插件推荐</span></h2><p>Hexo提供了诸多插件来增强博客体验，地址<code>http://hexo.io/plugins/</code>。</p>
-<ul>
-<li>hexo-toc</li>
-</ul>
-<p>用于生成目录，只需要在生成目录的地方写入 <code>&lt;!-- ttoc --&gt;</code></p>
-<p>安装 <code>npm install hexo-toc --save</code></p>
-<p>在博客根目录下的 <code>_config.yml</code> 中如下配置：</p>
-<pre><code>toc:
-  maxDepth: 3
-</code></pre>
-<p><a target="_blank" rel="noopener" href="https://yscoder.github.io/20150514/hexo-toc.html">参考</a></p>
-<h2><span id="hexo文档归类">hexo文档归类</span></h2><p>_config.yaml下面有两个配置</p>
-<p><code>permalink</code> 用于设置文章的永久链接格式<br><code>new_post_name</code> 新文章的文件名称</p>
-<p>配置如下命令，即可让新建的文章默认按照年月去分类。<br>在<code>_config.yml</code>文件中修改下面的命令<br><code>new_post_name: :year/:month/:title.md</code></p>
-<img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5yeXpleWFuZy50b3AvMjAyMDA3MjYwOTI3MjQucG5n?x-oss-process=image/format,png" alt="20200726092724" style="zoom:50%;">
-
-<p>通过该命令 <code>hexo new post -p /后端/test.md</code> 执行后，会在post文件夹下创建子文件夹 “后端”，并创建一篇test.md博文。</p>
-
+                
                 
             </div>
             <hr/>
@@ -571,7 +490,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zhongsy-zsy.github.io/2022/06/12/hexo-shi-yong-jiao-cheng/">http://zhongsy-zsy.github.io/2022/06/12/hexo-shi-yong-jiao-cheng/</a>
+                    <a href="http://zhongsy-zsy.github.io/2022/06/10/yin-shi-pin-ji-chu/rtc/rtc-suan-fa-ji-chu/">http://zhongsy-zsy.github.io/2022/06/10/yin-shi-pin-ji-chu/rtc/rtc-suan-fa-ji-chu/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -608,15 +527,7 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/hexo/">
-                                    <span class="chip bg-color">hexo</span>
-                                </a>
-                            
-                                <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                                    <span class="chip bg-color">工具</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -1047,10 +958,9 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
                 <a href="/2022/06/12/hexo-shi-yong-jiao-cheng/">
                     <div class="card-image">
@@ -1068,9 +978,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-12
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-12
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1083,7 +993,6 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -1106,13 +1015,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/06/10/yin-shi-pin-ji-chu/rtc/rtc-suan-fa-ji-chu/">
+                <a href="/2022/06/10/test-my-site/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="post">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="test_my_site">
                         
-                        <span class="card-title">post</span>
+                        <span class="card-title">test_my_site</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
