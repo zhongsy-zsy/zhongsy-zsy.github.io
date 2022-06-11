@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>工程认知</title>
+      <link href="/2022/06/13/yu-yan/gong-cheng-ren-zhi/gong-cheng-ren-zhi/"/>
+      <url>/2022/06/13/yu-yan/gong-cheng-ren-zhi/gong-cheng-ren-zhi/</url>
+      
+        <content type="html"><![CDATA[<h1><span id></span></h1><h2><span id="思维">思维</span></h2><ul><li><p>对于有关联的数据结构，最好组合在一起，形成类或者是结构体</p></li><li><p>在探索方案的时候，要做到一下几点</p></li></ul><ol><li>整理数据流程功能要走通</li><li>想好如何复用现有的代码，功能而不是自己重写</li><li>要学会提前设计好数据结构，不要没做好就弄，会浪费很多时间</li></ol><ul><li>遇到问题，先分段找到大致的范围， 之后先考虑可能的情况，然后依次排除可能性更高的情况</li></ul><h2><span id="代码">代码</span></h2><ul><li>在编写代码的初期，为了确保代码的准确性，可以适当的添加assert()，方便快速定位代码异常位置。之后再相应的删除代码。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 工程思维 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 代码习惯 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hexo使用教程</title>
       <link href="/2022/06/12/hexo-shi-yong-jiao-cheng/"/>
       <url>/2022/06/12/hexo-shi-yong-jiao-cheng/</url>
@@ -23,6 +48,112 @@
             <tag> hexo </tag>
             
             <tag> 工具 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>C++函数返回优化</title>
+      <link href="/2022/06/12/yu-yan/c/c-han-shu-fan-hui-you-hua/"/>
+      <url>/2022/06/12/yu-yan/c/c-han-shu-fan-hui-you-hua/</url>
+      
+        <content type="html"><![CDATA[<h1><span id="c函数返回优化">C++函数返回优化</span></h1><p>我们知道，函数运行结束后，函数内部的局部变量就会消失，当函数返回的对象的时候，会产生一个临时对象，这样会消耗很多的计算资源，写一段代码进行测试。</p><pre class=" language-c++"><code class="language-c++">#include <iostream>using namespace std;class MyBuff &#123; public:  MyBuff() &#123;    cout << "MyBuff()" << endl;  &#125;  MyBuff(const MyBuff& b) = delete;  MyBuff& operator=(const MyBuff& b) = delete;  ~MyBuff() &#123;    cout << "~MyBuff()" << endl;  &#125;  MyBuff(MyBuff&& b) noexcept &#123; cout << "move construct" << endl; &#125;  MyBuff& operator=(MyBuff&& b) noexcept &#123;    cout << "move assign " << endl;    return *this;  &#125;&#125;;class bbuffer &#123; public:  bbuffer() &#123;&#125;  void show() &#123; cout << "sh bbuffer" << endl; &#125;  ~bbuffer() &#123;&#125;&#125;;MyBuff GetBuff() &#123;  MyBuff res;  cout << &res << endl;  bbuffer b_;  b_.show();  return res;&#125;int main() &#123;  MyBuff b = GetBuff();  cout << &b << endl;&#125;</iostream></code></pre><p>执行结果如下：</p><pre><code>MyBuff()0x7ff7bb322258show bbuffer0x7ff7bb322258~MyBuff()</code></pre><p>是不是感觉和理解的不对，这时候好像并没有产生一个临时的对象，我们发现b和临时对象res的地址是一样的，并且res的析构是在整个程序结束的时候执行的，难道编译器进行了优化。</p><p>之后百度发现有一种优化叫做返回值优化机制，<a href="https://www.cnblogs.com/xkfz007/archive/2012/07/21/2602110.html">传送门</a>，编译时候加入参数 -fno-elide-constructors优化。</p><p>从新执行代码结果如下</p><pre><code>MyBuff()0x7ff7b2e2a200show bbuffermove construct~MyBuff()move construct~MyBuff()0x7ff7b2e2a258~MyBuff()</code></pre><p>这时候</p><p>MyBuff()是在GetBuff()函数内部进行构造。</p><p>返回的时候生成临时变量，(函数的返回值为右值)触发一次移动构造，之后析构res.</p><p>之后临时变量用来构造main中的c，之后析构</p><p>函数执行完成，c被析构。</p><p>为什么没有调用移动赋值构造，<a href="https://www.jianshu.com/p/fb2440750f70">传送门</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++基础 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>大小端详解</title>
+      <link href="/2022/06/12/yu-yan/c/da-xiao-duan/"/>
+      <url>/2022/06/12/yu-yan/c/da-xiao-duan/</url>
+      
+        <content type="html"><![CDATA[<h1><span id="大小端详解">大小端详解</span></h1><p> [toc]</p><h2><span id="大小端原理">大小端原理</span></h2><p>大小端出现的原因在于：在计算机中，&#x3D;&#x3D;数据都是按照字节去进行存储的(所以如果是单字节的问题就不涉及到大小端)&#x3D;&#x3D;，但是对于多字节(int,long等)就会涉及到数据的存储顺序的问题，这也就出现了两种常见的存储方式</p><ul><li>Big endian : 大端存储，大端存储是高字节在前面(低地址)，低字节在后面(高地址)</li><li>Little endiam ：小端存储，小端存储是高字节在后面(高地址)，低字节在前面(低地址)</li></ul><p>不同的cpu可能有不同的模型</p><p>优点</p><ul><li>大端模式，由于高位在低地址，所以很容易判断正负</li><li>小端模式，强制抓换数据的时候，不需要调整字节内容</li></ul><p>以0x1234为例进行说明。</p><table><thead><tr><th>地址</th><th>0x4000（低地址）</th><th>0x4001（高地址）</th></tr></thead><tbody><tr><td>大端存储</td><td>0x12</td><td>0x34</td></tr><tr><td>小端存储</td><td>0x34</td><td>0x12</td></tr></tbody></table><h2><span id="大小端验证">大小端验证</span></h2><h3><span id="c验证">C++验证</span></h3><p>C++判断大小端可以借用Union，union在某种程度上和struct是一种数据结构</p><p>相同点</p><ul><li>都可以包含不同的数据类型和变量</li></ul><p>不同点</p><ul><li>struct是所有数据&#x3D;&#x3D;共存&#x3D;&#x3D;，有容乃大，不管struct内的数据结构用不用，都会为其分配内存</li><li>union是各种变量互斥的存在。其实就是共用一块内存地址。union的大小取决与里面内存对齐后最大的那个。</li></ul><p><a href="https://blog.csdn.net/ahelloyou/article/details/118488687?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165475505716782395384248%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=165475505716782395384248&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-118488687-null-null.nonecase&utm_term=%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90&spm=1018.2226.3001.4450">内存对齐知识点</a></p><p>这时候就可以利用union去判断大小端。</p><pre class=" language-c++"><code class="language-c++">union U &#123;  char ch[4];  int var;&#125; test;这时候U的sizeof为4我们进行如下的赋值操作  test.ch[0] = 0x00u; // 低地址  test.ch[1] = 0x00u; // +    test.ch[2] = 0x00u; // +    test.ch[3] = 0x01u; // 高地址                                                            高位(32) -    -   低位(0)如果是大端模式，那么高位放到低地址为 0x00u 0x00u 0x00u 0x01u如果是小端模式，那么高位放在高地址为 0x01u 0x00u 0x00u 0x00u如果test.val == 1那么就是大端模式，反之就是小端。</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+            <tag> c++基础 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Leetcode 464. 我能赢吗</title>
+      <link href="/2022/06/12/yu-yan/leetcode/dfs/464-wo-neng-ying-ma/"/>
+      <url>/2022/06/12/yu-yan/leetcode/dfs/464-wo-neng-ying-ma/</url>
+      
+        <content type="html"><![CDATA[<h4><span id="464-我能赢吗"></span></h4><p>难度中等370收藏分享切换为英文接收动态反馈</p><p>在 “100 game” 这个游戏中，两名玩家轮流选择从 <code>1</code> 到 <code>10</code> 的任意整数，累计整数和，先使得累计整数和 <strong>达到或超过</strong> 100 的玩家，即为胜者。</p><p>如果我们将游戏规则改为 “玩家 <strong>不能</strong> 重复使用整数” 呢？</p><p>例如，两个玩家可以轮流从公共整数池中抽取从 1 到 15 的整数（不放回），直到累计整数和 &gt;&#x3D; 100。</p><p>给定两个整数 <code>maxChoosableInteger</code> （整数池中可选择的最大数）和 <code>desiredTotal</code>（累计和），若先出手的玩家是否能稳赢则返回 <code>true</code> ，否则返回 <code>false</code> 。假设两位玩家游戏时都表现 <strong>最佳</strong> 。</p><p><strong>示例 1：</strong></p><pre><code>输入：maxChoosableInteger = 10, desiredTotal = 11输出：false解释：无论第一个玩家选择哪个整数，他都会失败。第一个玩家可以选择从 1 到 10 的整数。如果第一个玩家选择 1，那么第二个玩家只能选择从 2 到 10 的整数。第二个玩家可以通过选择整数 10（那么累积和为 11 &gt;= desiredTotal），从而取得胜利.同样地，第一个玩家选择任意其他整数，第二个玩家都会赢。</code></pre><p><strong>示例 2:</strong></p><pre><code>输入：maxChoosableInteger = 10, desiredTotal = 0输出：true</code></pre><p><strong>示例 3:</strong></p><pre><code>输入：maxChoosableInteger = 10, desiredTotal = 1输出：true</code></pre><h3><span id="思路">思路</span></h3><p>首先想到的是暴力解法，也就就将每一种情况都遍历一遍。其实动态规划，也是在记忆dfs的基础上进行的，也就是其中一个是正向遍历(自顶向下)，一个是递归逆向的(自底向上)。</p><p>那么怎么去记忆化。也就是找到变量并将其记录下来，下次再次遇到的时候就可以直接得到结果。</p><p>这里的变量是，</p><ul><li>我们取的数和剩余的数(这里用二进制去表示取的数，因为m&lt;&#x3D;20,也就是20位，这样就可以用statae代表，而visited[state]记录着这个状态下的结果)</li><li>sum</li></ul><p>依照这个思路写下代码如下；</p><pre class=" language-c++"><code class="language-c++">class Solution &#123;private:    // visited[i] == 0，说明没有计算过    // visited[i] == 1，说明计算过，结果为 true    // visited[i] == 2，说明计算过，结果为 false    int visited[1 << 21];public:    bool canIWin(int maxChoosableInteger, int desiredTotal) &#123;        // 判断当前做选择的玩家（先手），是否一定赢        // 开始时，state = 0，表示「公共整数集」中的所有数字都未被使用过         if (maxChoosableInteger >= desiredTotal)            return true;        if (maxChoosableInteger * (maxChoosableInteger + 1) < 2*desiredTotal)            return false;        return dfs(0, 0, maxChoosableInteger, desiredTotal);    &#125;        // 当前做选择的玩家是否一定赢    bool dfs(int state, int sum, int maxChoosableInteger, int desiredTotal) &#123;        if (visited[state] == 1) return true;        if (visited[state] == 2) return false;        // 遍历可选择的公共整数        for (int x = 1; x <= maxchoosableinteger; ++x) &#123; 如果 x 已经被使用过了，则不能选择 if ((1 << x) & state) continue; 如果选择了 以后，大于等于了 desiredtotal，当前玩家赢 (sum +>= desiredTotal) &#123;                visited[state] = 1;                return true;            &#125;            // 当前玩家选择了 x 以后，判断对方玩家一定输吗？            if (!dfs((1 << x) | state, sum + x, maxChoosableInteger, desiredTotal)) &#123;                visited[state] = 1;                return true;            &#125;        &#125;        visited[state] = 2;        return false;    &#125;    &#125;;</=></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 算法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> leetcode </tag>
+            
+            <tag> dfs </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>语句提取数据存入excel</title>
+      <link href="/2022/06/12/yu-yan/python/python-jiao-ben/yu-ju-ti-qu-shu-ju-cun-ru-excel/"/>
+      <url>/2022/06/12/yu-yan/python/python-jiao-ben/yu-ju-ti-qu-shu-ju-cun-ru-excel/</url>
+      
+        <content type="html"><![CDATA[<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> re<span class="token keyword">from</span> re <span class="token keyword">import</span> X<span class="token keyword">import</span> xlwt<span class="token keyword">import</span> xlrd<span class="token keyword">def</span> <span class="token function">calculate_average</span><span class="token punctuation">(</span>lst<span class="token punctuation">)</span><span class="token punctuation">:</span>    <span class="token comment" spellcheck="true"># print(lst)</span>    sum <span class="token operator">=</span> <span class="token number">0</span>    acc <span class="token operator">=</span> <span class="token number">0</span>    <span class="token keyword">for</span> val <span class="token keyword">in</span> lst<span class="token punctuation">:</span>        <span class="token keyword">if</span><span class="token punctuation">(</span>val <span class="token operator">==</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">:</span>            <span class="token keyword">continue</span>        sum <span class="token operator">+=</span> int<span class="token punctuation">(</span>val<span class="token punctuation">)</span>        acc <span class="token operator">+=</span> <span class="token number">1</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>acc <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        <span class="token keyword">return</span> <span class="token number">0</span>    <span class="token keyword">return</span> sum<span class="token operator">/</span>acc<span class="token keyword">def</span> <span class="token function">find_num</span><span class="token punctuation">(</span>str<span class="token punctuation">,</span> pattern<span class="token punctuation">)</span><span class="token punctuation">:</span>    p_1 <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span>pattern<span class="token punctuation">)</span>    raw_1 <span class="token operator">=</span> p_1<span class="token punctuation">.</span>findall<span class="token punctuation">(</span>str<span class="token punctuation">)</span>    str <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>raw_1<span class="token punctuation">)</span>    p_2 <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"[0-9]+"</span><span class="token punctuation">)</span>    <span class="token keyword">return</span> p_2<span class="token punctuation">.</span>findall<span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token keyword">def</span> <span class="token function">write_file</span><span class="token punctuation">(</span>val<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">:</span>    book <span class="token operator">=</span> xlwt<span class="token punctuation">.</span>Workbook<span class="token punctuation">(</span>encoding<span class="token operator">=</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 创建Workbook，相当于创建Excel</span>    <span class="token comment" spellcheck="true"># 创建sheet，Sheet1为表的名字，cell_overwrite_ok为是否覆盖单元格</span>    sheet1 <span class="token operator">=</span> book<span class="token punctuation">.</span>add_sheet<span class="token punctuation">(</span>u<span class="token string">'Sheet1'</span><span class="token punctuation">,</span> cell_overwrite_ok<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        sheet1<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> key<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>    row <span class="token operator">=</span> <span class="token number">1</span>    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>val<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        <span class="token keyword">for</span> j <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>            sheet1<span class="token punctuation">.</span>write<span class="token punctuation">(</span>row<span class="token punctuation">,</span> j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> val<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>        row <span class="token operator">=</span> row<span class="token operator">+</span><span class="token number">1</span>    <span class="token comment" spellcheck="true"># write average</span>    sheet1<span class="token punctuation">.</span>write<span class="token punctuation">(</span>row<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"average"</span><span class="token punctuation">)</span>    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        sheet1<span class="token punctuation">.</span>write<span class="token punctuation">(</span>row<span class="token punctuation">,</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> calculate_average<span class="token punctuation">(</span>val<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    book<span class="token punctuation">.</span>save<span class="token punctuation">(</span><span class="token string">'/Users/bytedance/Documents/csv_1.0.xls'</span><span class="token punctuation">)</span><span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>    key <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Lock"</span><span class="token punctuation">,</span> <span class="token string">"eglmake"</span><span class="token punctuation">,</span> <span class="token string">"draw"</span><span class="token punctuation">,</span> <span class="token string">"buf"</span><span class="token punctuation">,</span> <span class="token string">"render"</span><span class="token punctuation">,</span> <span class="token string">"all"</span><span class="token punctuation">]</span>    <span class="token keyword">with</span> open<span class="token punctuation">(</span><span class="token string">'/Users/bytedance/Documents/csv_1.0.log'</span><span class="token punctuation">,</span> <span class="token string">'r+'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> fd<span class="token punctuation">:</span>        val <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span>        <span class="token comment" spellcheck="true"># for i in range(len(key)):</span>        <span class="token comment" spellcheck="true"># val[i].append([])</span>        <span class="token comment" spellcheck="true"># val[i].pop()</span>        <span class="token keyword">for</span> text <span class="token keyword">in</span> fd<span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>            <span class="token comment" spellcheck="true"># print(text)</span>            <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>                v <span class="token operator">=</span> find_num<span class="token punctuation">(</span>text<span class="token punctuation">,</span> key<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">+</span><span class="token string">": [0-9]+"</span><span class="token punctuation">)</span>                <span class="token comment" spellcheck="true"># print(v)</span>                <span class="token keyword">if</span><span class="token punctuation">(</span>v <span class="token operator">!=</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">:</span>                    val<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span>        write_file<span class="token punctuation">(</span>val<span class="token punctuation">,</span> key<span class="token punctuation">)</span></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 脚本 </category>
+          
+          <category> 数据处理 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> python </tag>
             
         </tags>
       
@@ -58,49 +189,10 @@
     
     <entry>
       <title></title>
-      <link href="/2022/06/09/yu-yan/gong-cheng-ren-zhi/gong-cheng-ren-zhi/"/>
-      <url>/2022/06/09/yu-yan/gong-cheng-ren-zhi/gong-cheng-ren-zhi/</url>
-      
-        <content type="html"><![CDATA[<h2><span id="思维">思维</span></h2><ul><li><p>对于有关联的数据结构，最好组合在一起，形成类或者是结构体</p></li><li><p>在探索方案的时候，要做到一下几点</p></li></ul><ol><li>整理数据流程功能要走通</li><li>想好如何复用现有的代码，功能而不是自己重写</li><li>要学会提前设计好数据结构，不要没做好就弄，会浪费很多时间</li></ol><ul><li>遇到问题，先分段找到大致的范围， 之后先考虑可能的情况，然后依次排除可能性更高的情况</li></ul><h2><span id="代码">代码</span></h2><ul><li>在编写代码的初期，为了确保代码的准确性，可以适当的添加assert()，方便快速定位代码异常位置。之后再相应的删除代码。</li></ul>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2022/06/09/yu-yan/c/da-xiao-duan/"/>
-      <url>/2022/06/09/yu-yan/c/da-xiao-duan/</url>
-      
-        <content type="html"><![CDATA[<h1><span id="大小端详解">大小端详解</span></h1><p> [toc]</p><h2><span id="大小端原理">大小端原理</span></h2><p>大小端出现的原因在于：在计算机中，&#x3D;&#x3D;数据都是按照字节去进行存储的(所以如果是单字节的问题就不涉及到大小端)&#x3D;&#x3D;，但是对于多字节(int,long等)就会涉及到数据的存储顺序的问题，这也就出现了两种常见的存储方式</p><ul><li>Big endian : 大端存储，大端存储是高字节在前面(低地址)，低字节在后面(高地址)</li><li>Little endiam ：小端存储，小端存储是高字节在后面(高地址)，低字节在前面(低地址)</li></ul><p>不同的cpu可能有不同的模型</p><p>优点</p><ul><li>大端模式，由于高位在低地址，所以很容易判断正负</li><li>小端模式，强制抓换数据的时候，不需要调整字节内容</li></ul><p>以0x1234为例进行说明。</p><table><thead><tr><th>地址</th><th>0x4000（低地址）</th><th>0x4001（高地址）</th></tr></thead><tbody><tr><td>大端存储</td><td>0x12</td><td>0x34</td></tr><tr><td>小端存储</td><td>0x34</td><td>0x12</td></tr></tbody></table><h2><span id="大小端验证">大小端验证</span></h2><h3><span id="c验证">C++验证</span></h3><p>C++判断大小端可以借用Union，union在某种程度上和struct是一种数据结构</p><p>相同点</p><ul><li>都可以包含不同的数据类型和变量</li></ul><p>不同点</p><ul><li>struct是所有数据&#x3D;&#x3D;共存&#x3D;&#x3D;，有容乃大，不管struct内的数据结构用不用，都会为其分配内存</li><li>union是各种变量互斥的存在。其实就是共用一块内存地址。union的大小取决与里面内存对齐后最大的那个。</li></ul><p><a href="https://blog.csdn.net/ahelloyou/article/details/118488687?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165475505716782395384248%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=165475505716782395384248&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-118488687-null-null.nonecase&utm_term=%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90&spm=1018.2226.3001.4450">内存对齐知识点</a></p><p>这时候就可以利用union去判断大小端。</p><pre class=" language-c++"><code class="language-c++">union U &#123;  char ch[4];  int var;&#125; test;这时候U的sizeof为4我们进行如下的赋值操作  test.ch[0] = 0x00u; // 低地址  test.ch[1] = 0x00u; // +    test.ch[2] = 0x00u; // +    test.ch[3] = 0x01u; // 高地址                                                            高位(32) -    -   低位(0)如果是大端模式，那么高位放到低地址为 0x00u 0x00u 0x00u 0x01u如果是小端模式，那么高位放在高地址为 0x01u 0x00u 0x00u 0x00u如果test.val == 1那么就是大端模式，反之就是小端。</code></pre>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
       <link href="/2022/06/07/yu-yan/c/zhi-zhen-xiang-jie/"/>
       <url>/2022/06/07/yu-yan/c/zhi-zhen-xiang-jie/</url>
       
         <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2022/06/07/yu-yan/linux/find-shi-yong/"/>
-      <url>/2022/06/07/yu-yan/linux/find-shi-yong/</url>
-      
-        <content type="html"><![CDATA[<h1><span id="大小端">大小端</span></h1><p>[toc]</p><h2><span id="大小端的概念">大小端的概念</span></h2><h2><span id="如何判断大小端">如何判断大小端</span></h2><h3><span id="java判断大小端">JAVA判断大小端</span></h3><h3><span id="c判断大小端">C++判断大小端</span></h3>]]></content>
       
       
       
@@ -127,110 +219,6 @@
       <url>/2022/06/07/yu-yan/linux/xargs-he-guan-dao-de-qu-bie/</url>
       
         <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2022/05/22/yu-yan/mian-xiang-dui-xiang/uml/mian-xiang-dui-xiang-yuan-ze/zong-lan/"/>
-      <url>/2022/05/22/yu-yan/mian-xiang-dui-xiang/uml/mian-xiang-dui-xiang-yuan-ze/zong-lan/</url>
-      
-        <content type="html"><![CDATA[<h2><span id="总览">总览</span></h2><p>设计原则的目的是在于指导高质量软件开发。</p><p>判断一个软件设计是否合理，在于找到反例(根据实际业务需求)</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2022/05/22/yu-yan/leetcode/dfs/464-wo-neng-ying-ma/"/>
-      <url>/2022/05/22/yu-yan/leetcode/dfs/464-wo-neng-ying-ma/</url>
-      
-        <content type="html"><![CDATA[<h4><span id="464-我能赢吗"></span></h4><p>难度中等370收藏分享切换为英文接收动态反馈</p><p>在 “100 game” 这个游戏中，两名玩家轮流选择从 <code>1</code> 到 <code>10</code> 的任意整数，累计整数和，先使得累计整数和 <strong>达到或超过</strong> 100 的玩家，即为胜者。</p><p>如果我们将游戏规则改为 “玩家 <strong>不能</strong> 重复使用整数” 呢？</p><p>例如，两个玩家可以轮流从公共整数池中抽取从 1 到 15 的整数（不放回），直到累计整数和 &gt;&#x3D; 100。</p><p>给定两个整数 <code>maxChoosableInteger</code> （整数池中可选择的最大数）和 <code>desiredTotal</code>（累计和），若先出手的玩家是否能稳赢则返回 <code>true</code> ，否则返回 <code>false</code> 。假设两位玩家游戏时都表现 <strong>最佳</strong> 。</p><p><strong>示例 1：</strong></p><pre><code>输入：maxChoosableInteger = 10, desiredTotal = 11输出：false解释：无论第一个玩家选择哪个整数，他都会失败。第一个玩家可以选择从 1 到 10 的整数。如果第一个玩家选择 1，那么第二个玩家只能选择从 2 到 10 的整数。第二个玩家可以通过选择整数 10（那么累积和为 11 &gt;= desiredTotal），从而取得胜利.同样地，第一个玩家选择任意其他整数，第二个玩家都会赢。</code></pre><p><strong>示例 2:</strong></p><pre><code>输入：maxChoosableInteger = 10, desiredTotal = 0输出：true</code></pre><p><strong>示例 3:</strong></p><pre><code>输入：maxChoosableInteger = 10, desiredTotal = 1输出：true</code></pre><h3><span id="思路">思路</span></h3><p>首先想到的是暴力解法，也就就将每一种情况都遍历一遍。其实动态规划，也是在记忆dfs的基础上进行的，也就是其中一个是正向遍历(自顶向下)，一个是递归逆向的(自底向上)。</p><p>那么怎么去记忆化。也就是找到变量并将其记录下来，下次再次遇到的时候就可以直接得到结果。</p><p>这里的变量是，</p><ul><li>我们取的数和剩余的数(这里用二进制去表示取的数，因为m&lt;&#x3D;20,也就是20位，这样就可以用statae代表，而visited[state]记录着这个状态下的结果)</li><li>sum</li></ul><p>依照这个思路写下代码如下；</p><pre class=" language-c++"><code class="language-c++">class Solution &#123;private:    // visited[i] == 0，说明没有计算过    // visited[i] == 1，说明计算过，结果为 true    // visited[i] == 2，说明计算过，结果为 false    int visited[1 << 21];public:    bool canIWin(int maxChoosableInteger, int desiredTotal) &#123;        // 判断当前做选择的玩家（先手），是否一定赢        // 开始时，state = 0，表示「公共整数集」中的所有数字都未被使用过         if (maxChoosableInteger >= desiredTotal)            return true;        if (maxChoosableInteger * (maxChoosableInteger + 1) < 2*desiredTotal)            return false;        return dfs(0, 0, maxChoosableInteger, desiredTotal);    &#125;        // 当前做选择的玩家是否一定赢    bool dfs(int state, int sum, int maxChoosableInteger, int desiredTotal) &#123;        if (visited[state] == 1) return true;        if (visited[state] == 2) return false;        // 遍历可选择的公共整数        for (int x = 1; x <= maxchoosableinteger; ++x) &#123; 如果 x 已经被使用过了，则不能选择 if ((1 << x) & state) continue; 如果选择了 以后，大于等于了 desiredtotal，当前玩家赢 (sum +>= desiredTotal) &#123;                visited[state] = 1;                return true;            &#125;            // 当前玩家选择了 x 以后，判断对方玩家一定输吗？            if (!dfs((1 << x) | state, sum + x, maxChoosableInteger, desiredTotal)) &#123;                visited[state] = 1;                return true;            &#125;        &#125;        visited[state] = 2;        return false;    &#125;    &#125;;</=></code></pre>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2022/05/21/yu-yan/mian-xiang-dui-xiang/uml/yong-li-tu/"/>
-      <url>/2022/05/21/yu-yan/mian-xiang-dui-xiang/uml/yong-li-tu/</url>
-      
-        <content type="html"><![CDATA[<p>用例模型是面向用户的，是对需求的开发与管理</p><p>建立用例图需要以下几个</p><ul><li>确定参与者，明确系统的边界</li><li>用例是参与者与系统交互的实现，是参与者要的最终结果，是由系统操作</li><li>用例命名一般采用动宾结构</li></ul><p>每一个需求都需要一个，用例文档进行说明。</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2022/05/18/yu-yan/mian-xiang-dui-xiang/xi-tong-de-gai-nian/"/>
-      <url>/2022/05/18/yu-yan/mian-xiang-dui-xiang/xi-tong-de-gai-nian/</url>
-      
-        <content type="html"><![CDATA[<ul><li>系统：相互作用的多元素的复合体</li></ul><p>比如面包，由牛奶，黄油，小麦等混合组成。</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2022/05/18/yu-yan/python/python-jiao-ben/yu-ju-ti-qu-shu-ju-cun-ru-excel/"/>
-      <url>/2022/05/18/yu-yan/python/python-jiao-ben/yu-ju-ti-qu-shu-ju-cun-ru-excel/</url>
-      
-        <content type="html"><![CDATA[<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> re<span class="token keyword">from</span> re <span class="token keyword">import</span> X<span class="token keyword">import</span> xlwt<span class="token keyword">import</span> xlrd<span class="token keyword">def</span> <span class="token function">calculate_average</span><span class="token punctuation">(</span>lst<span class="token punctuation">)</span><span class="token punctuation">:</span>    <span class="token comment" spellcheck="true"># print(lst)</span>    sum <span class="token operator">=</span> <span class="token number">0</span>    acc <span class="token operator">=</span> <span class="token number">0</span>    <span class="token keyword">for</span> val <span class="token keyword">in</span> lst<span class="token punctuation">:</span>        <span class="token keyword">if</span><span class="token punctuation">(</span>val <span class="token operator">==</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">:</span>            <span class="token keyword">continue</span>        sum <span class="token operator">+=</span> int<span class="token punctuation">(</span>val<span class="token punctuation">)</span>        acc <span class="token operator">+=</span> <span class="token number">1</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>acc <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        <span class="token keyword">return</span> <span class="token number">0</span>    <span class="token keyword">return</span> sum<span class="token operator">/</span>acc<span class="token keyword">def</span> <span class="token function">find_num</span><span class="token punctuation">(</span>str<span class="token punctuation">,</span> pattern<span class="token punctuation">)</span><span class="token punctuation">:</span>    p_1 <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span>pattern<span class="token punctuation">)</span>    raw_1 <span class="token operator">=</span> p_1<span class="token punctuation">.</span>findall<span class="token punctuation">(</span>str<span class="token punctuation">)</span>    str <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>raw_1<span class="token punctuation">)</span>    p_2 <span class="token operator">=</span> re<span class="token punctuation">.</span>compile<span class="token punctuation">(</span><span class="token string">"[0-9]+"</span><span class="token punctuation">)</span>    <span class="token keyword">return</span> p_2<span class="token punctuation">.</span>findall<span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token keyword">def</span> <span class="token function">write_file</span><span class="token punctuation">(</span>val<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">:</span>    book <span class="token operator">=</span> xlwt<span class="token punctuation">.</span>Workbook<span class="token punctuation">(</span>encoding<span class="token operator">=</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 创建Workbook，相当于创建Excel</span>    <span class="token comment" spellcheck="true"># 创建sheet，Sheet1为表的名字，cell_overwrite_ok为是否覆盖单元格</span>    sheet1 <span class="token operator">=</span> book<span class="token punctuation">.</span>add_sheet<span class="token punctuation">(</span>u<span class="token string">'Sheet1'</span><span class="token punctuation">,</span> cell_overwrite_ok<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        sheet1<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> key<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>    row <span class="token operator">=</span> <span class="token number">1</span>    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>val<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        <span class="token keyword">for</span> j <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>            sheet1<span class="token punctuation">.</span>write<span class="token punctuation">(</span>row<span class="token punctuation">,</span> j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> val<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>        row <span class="token operator">=</span> row<span class="token operator">+</span><span class="token number">1</span>    <span class="token comment" spellcheck="true"># write average</span>    sheet1<span class="token punctuation">.</span>write<span class="token punctuation">(</span>row<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"average"</span><span class="token punctuation">)</span>    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        sheet1<span class="token punctuation">.</span>write<span class="token punctuation">(</span>row<span class="token punctuation">,</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> calculate_average<span class="token punctuation">(</span>val<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    book<span class="token punctuation">.</span>save<span class="token punctuation">(</span><span class="token string">'/Users/bytedance/Documents/csv_1.0.xls'</span><span class="token punctuation">)</span><span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>    key <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Lock"</span><span class="token punctuation">,</span> <span class="token string">"eglmake"</span><span class="token punctuation">,</span> <span class="token string">"draw"</span><span class="token punctuation">,</span> <span class="token string">"buf"</span><span class="token punctuation">,</span> <span class="token string">"render"</span><span class="token punctuation">,</span> <span class="token string">"all"</span><span class="token punctuation">]</span>    <span class="token keyword">with</span> open<span class="token punctuation">(</span><span class="token string">'/Users/bytedance/Documents/csv_1.0.log'</span><span class="token punctuation">,</span> <span class="token string">'r+'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> fd<span class="token punctuation">:</span>        val <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span>        <span class="token comment" spellcheck="true"># for i in range(len(key)):</span>        <span class="token comment" spellcheck="true"># val[i].append([])</span>        <span class="token comment" spellcheck="true"># val[i].pop()</span>        <span class="token keyword">for</span> text <span class="token keyword">in</span> fd<span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>            <span class="token comment" spellcheck="true"># print(text)</span>            <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>                v <span class="token operator">=</span> find_num<span class="token punctuation">(</span>text<span class="token punctuation">,</span> key<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">+</span><span class="token string">": [0-9]+"</span><span class="token punctuation">)</span>                <span class="token comment" spellcheck="true"># print(v)</span>                <span class="token keyword">if</span><span class="token punctuation">(</span>v <span class="token operator">!=</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">:</span>                    val<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>v<span class="token punctuation">)</span><span class="token punctuation">)</span>        write_file<span class="token punctuation">(</span>val<span class="token punctuation">,</span> key<span class="token punctuation">)</span></code></pre>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2022/05/10/yu-yan/mian-xiang-dui-xiang/uml/uml-ji-ben-yuan-su-ji-jia-gou/"/>
-      <url>/2022/05/10/yu-yan/mian-xiang-dui-xiang/uml/uml-ji-ben-yuan-su-ji-jia-gou/</url>
-      
-        <content type="html"><![CDATA[<img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/image-20220510130624643.png" alt="image-20220510130624643" style="zoom:50%;"><p>在UML中被广泛接收的是4+1架构模型。</p><ul><li><p>用例视图</p><p>建模的起点，面向最终用户，是用来描述功能需求的。</p></li><li><p>逻辑视图</p><p>面向系统分析和设计人员，描述软件结构。</p></li><li><p>进程视图（Process View）</p><p>面向系统集成人员，描述系统性能、可伸缩性、吞吐量等信息。</p></li><li><p>实现视图（Implementation View</p><p>面向编码人员，描述系统的组装和配置管理。</p></li><li><p>部署视图（Deployment View</p><p>面向系统工程师，描述系统的拓扑结构、分布、移交、安装等信息</p></li></ul><p>UML提供了14种图像用于系统建模，一共是两类(结构图和行为图)</p><ul><li>用例图</li></ul><p>主要是用来描述需求的，是参与者的外部用户能够观察到的系统功能模型。适用于业务建模，需求获取和定义的场景。</p><ul><li>活动图(动态)</li></ul><p>有的用例比较复杂，可以用活动图描述用例内部的活动。可以将业务流程或计算内部控制流、数据流展示出来。一般配合用例图达到一个总分的展示效果。</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2022/05/10/yu-yan/c/c-han-shu-fan-hui-you-hua/"/>
-      <url>/2022/05/10/yu-yan/c/c-han-shu-fan-hui-you-hua/</url>
-      
-        <content type="html"><![CDATA[<h1><span id="c函数返回优化">C++函数返回优化</span></h1><p>我们知道，函数运行结束后，函数内部的局部变量就会消失，当函数返回的对象的时候，会产生一个临时对象，这样会消耗很多的计算资源，写一段代码进行测试。</p><pre class=" language-c++"><code class="language-c++">#include <iostream>using namespace std;class MyBuff &#123; public:  MyBuff() &#123;    cout << "MyBuff()" << endl;  &#125;  MyBuff(const MyBuff& b) = delete;  MyBuff& operator=(const MyBuff& b) = delete;  ~MyBuff() &#123;    cout << "~MyBuff()" << endl;  &#125;  MyBuff(MyBuff&& b) noexcept &#123; cout << "move construct" << endl; &#125;  MyBuff& operator=(MyBuff&& b) noexcept &#123;    cout << "move assign " << endl;    return *this;  &#125;&#125;;class bbuffer &#123; public:  bbuffer() &#123;&#125;  void show() &#123; cout << "sh bbuffer" << endl; &#125;  ~bbuffer() &#123;&#125;&#125;;MyBuff GetBuff() &#123;  MyBuff res;  cout << &res << endl;  bbuffer b_;  b_.show();  return res;&#125;int main() &#123;  MyBuff b = GetBuff();  cout << &b << endl;&#125;</iostream></code></pre><p>执行结果如下：</p><pre><code>MyBuff()0x7ff7bb322258show bbuffer0x7ff7bb322258~MyBuff()</code></pre><p>是不是感觉和理解的不对，这时候好像并没有产生一个临时的对象，我们发现b和临时对象res的地址是一样的，并且res的析构是在整个程序结束的时候执行的，难道编译器进行了优化。</p><p>之后百度发现有一种优化叫做返回值优化机制，<a href="https://www.cnblogs.com/xkfz007/archive/2012/07/21/2602110.html">传送门</a>，编译时候加入参数 -fno-elide-constructors优化。</p><p>从新执行代码结果如下</p><pre><code>MyBuff()0x7ff7b2e2a200show bbuffermove construct~MyBuff()move construct~MyBuff()0x7ff7b2e2a258~MyBuff()</code></pre><p>这时候</p><p>MyBuff()是在GetBuff()函数内部进行构造。</p><p>返回的时候生成临时变量，(函数的返回值为右值)触发一次移动构造，之后析构res.</p><p>之后临时变量用来构造main中的c，之后析构</p><p>函数执行完成，c被析构。</p><p>为什么没有调用移动赋值构造，<a href="https://www.jianshu.com/p/fb2440750f70">传送门</a></p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/2022/05/06/yu-yan/java-xue-xi/java-jie-shao/"/>
-      <url>/2022/05/06/yu-yan/java-xue-xi/java-jie-shao/</url>
-      
-        <content type="html"><![CDATA[<h2><span id="java特点">JAVA特点</span></h2><ul><li>简单(没有内存管理、指针等)</li><li>面向对象</li><li>分布式</li><li>结构独立(只需要设备能够运行虚拟机)</li><li>可移植</li><li>解释执行(由JAVA解释器将字节码文件解释为机器码再运行)</li><li>健壮(强类型语言，在编译期间进行代码检查)</li><li>安全</li><li>高性能</li><li>多线程</li><li>动态(加载各种类库)</li></ul><h2><span id="平台">平台</span></h2><p>JAVA SE（Standard Edition）台式机与桌面应用</p><p>JAVA EE（Enterprise Edtion）简化企业级系统开发、部署、管理</p><p>JAVA ME（Micro Edtion）手机、机顶盒、PAD等产品 </p><p>JDK（JAVA Development Kit）里面包含JRE和一些开发工具</p><p>JRE(Java SE Runtime Environment)</p><ul><li>JVM(Java Virtual Machine)</li></ul><p>JAVA核心类库</p><h2><span id="运行过程">运行过程</span></h2><p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/image-20220506105449775.png" alt="image-20220506105449775"></p><p>全埋点计算时延</p><p>Gameserver 默认启动byteRTC需要修改为llama</p>]]></content>
       
       
       

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="zhongsy_world">
+    <meta name="keywords" content="大小端详解, zhongsy_world">
     <meta name="description" content="分享日常学习文档以及资料">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>zhongsy_world</title>
+    <title>大小端详解 | zhongsy_world</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title"></h1>
+                    <h1 class="description center-align post-title">大小端详解</h1>
                 </div>
             </div>
         </div>
@@ -429,12 +429,29 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/hexo/">
+                                <span class="chip bg-color">hexo</span>
+                            </a>
+                        
+                            <a href="/tags/c-%E5%9F%BA%E7%A1%80/">
+                                <span class="chip bg-color">c++基础</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/C/" class="post-category">
+                                C++
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -443,7 +460,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-06-07
+                    2022-06-12
                 </div>
                 
 
@@ -452,7 +469,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    519
                 </div>
                 
 
@@ -469,7 +486,67 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1><span id="大小端详解">大小端详解</span></h1><p> [toc]</p>
+<h2><span id="大小端原理">大小端原理</span></h2><p>大小端出现的原因在于：在计算机中，&#x3D;&#x3D;数据都是按照字节去进行存储的(所以如果是单字节的问题就不涉及到大小端)&#x3D;&#x3D;，但是对于多字节(int,long等)就会涉及到数据的存储顺序的问题，这也就出现了两种常见的存储方式</p>
+<ul>
+<li>Big endian : 大端存储，大端存储是高字节在前面(低地址)，低字节在后面(高地址)</li>
+<li>Little endiam ：小端存储，小端存储是高字节在后面(高地址)，低字节在前面(低地址)</li>
+</ul>
+<p>不同的cpu可能有不同的模型</p>
+<p>优点</p>
+<ul>
+<li>大端模式，由于高位在低地址，所以很容易判断正负</li>
+<li>小端模式，强制抓换数据的时候，不需要调整字节内容</li>
+</ul>
+<p>以0x1234为例进行说明。</p>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>0x4000（低地址）</th>
+<th>0x4001（高地址）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>大端存储</td>
+<td>0x12</td>
+<td>0x34</td>
+</tr>
+<tr>
+<td>小端存储</td>
+<td>0x34</td>
+<td>0x12</td>
+</tr>
+</tbody></table>
+<h2><span id="大小端验证">大小端验证</span></h2><h3><span id="c验证">C++验证</span></h3><p>C++判断大小端可以借用Union，union在某种程度上和struct是一种数据结构</p>
+<p>相同点</p>
+<ul>
+<li>都可以包含不同的数据类型和变量</li>
+</ul>
+<p>不同点</p>
+<ul>
+<li>struct是所有数据&#x3D;&#x3D;共存&#x3D;&#x3D;，有容乃大，不管struct内的数据结构用不用，都会为其分配内存</li>
+<li>union是各种变量互斥的存在。其实就是共用一块内存地址。union的大小取决与里面内存对齐后最大的那个。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ahelloyou/article/details/118488687?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165475505716782395384248%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=165475505716782395384248&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-1-118488687-null-null.nonecase&utm_term=%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90&spm=1018.2226.3001.4450">内存对齐知识点</a></p>
+<p>这时候就可以利用union去判断大小端。</p>
+<pre class=" language-c++"><code class="language-c++">union U &#123;
+  char ch[4];
+  int var;
+&#125; test;
+这时候U的sizeof为4
+我们进行如下的赋值操作
+  test.ch[0] = 0x00u; // 低地址
+  test.ch[1] = 0x00u; // +
+    test.ch[2] = 0x00u; // +
+    test.ch[3] = 0x01u; // 高地址
+
+                                                            高位(32) -    -   低位(0)
+如果是大端模式，那么高位放到低地址为 0x00u 0x00u 0x00u 0x01u
+如果是小端模式，那么高位放在高地址为 0x01u 0x00u 0x00u 0x00u
+如果test.val == 1那么就是大端模式，反之就是小端。
+</code></pre>
+
                 
             </div>
             <hr/>
@@ -495,7 +572,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zhongsy-zsy.github.io/2022/06/07/yu-yan/c/zhi-zhen-xiang-jie/">http://zhongsy-zsy.github.io/2022/06/07/yu-yan/c/zhi-zhen-xiang-jie/</a>
+                    <a href="http://zhongsy-zsy.github.io/2022/06/12/yu-yan/c/da-xiao-duan/">http://zhongsy-zsy.github.io/2022/06/12/yu-yan/c/da-xiao-duan/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -532,7 +609,15 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/hexo/">
+                                    <span class="chip bg-color">hexo</span>
+                                </a>
+                            
+                                <a href="/tags/c-%E5%9F%BA%E7%A1%80/">
+                                    <span class="chip bg-color">c++基础</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -841,32 +926,44 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/06/10/hello-world/">
+                <a href="/2022/06/12/yu-yan/c/c-han-shu-fan-hui-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="C++函数返回优化">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">C++函数返回优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            C++函数返回值在编译的时候，编译器会对其做一定的优化。
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-10
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-12
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            ZhongSY
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/C/" class="post-category">
+                                    C++
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C-%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">C++基础</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -878,32 +975,48 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/06/07/yu-yan/linux/addr2line-shi-yong/">
+                <a href="/2022/06/12/yu-yan/leetcode/dfs/464-wo-neng-ying-ma/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Leetcode 464. 我能赢吗">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">Leetcode 464. 我能赢吗</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            leetcode 464
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-12
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            ZhongSY
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/leetcode/">
+                        <span class="chip bg-color">leetcode</span>
+                    </a>
+                    
+                    <a href="/tags/dfs/">
+                        <span class="chip bg-color">dfs</span>
+                    </a>
+                    
                 </div>
                 
             </div>

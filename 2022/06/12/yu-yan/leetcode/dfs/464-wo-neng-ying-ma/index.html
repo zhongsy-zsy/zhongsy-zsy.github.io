@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="zhongsy_world">
+    <meta name="keywords" content="Leetcode 464. 我能赢吗, zhongsy_world">
     <meta name="description" content="分享日常学习文档以及资料">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>zhongsy_world</title>
+    <title>Leetcode 464. 我能赢吗 | zhongsy_world</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title"></h1>
+                    <h1 class="description center-align post-title">Leetcode 464. 我能赢吗</h1>
                 </div>
             </div>
         </div>
@@ -429,12 +429,29 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/leetcode/">
+                                <span class="chip bg-color">leetcode</span>
+                            </a>
+                        
+                            <a href="/tags/dfs/">
+                                <span class="chip bg-color">dfs</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -443,7 +460,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-06-07
+                    2022-06-12
                 </div>
                 
 
@@ -452,7 +469,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    693
                 </div>
                 
 
@@ -469,7 +486,77 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h4><span id="464-我能赢吗"></span></h4><p>难度中等370收藏分享切换为英文接收动态反馈</p>
+<p>在 “100 game” 这个游戏中，两名玩家轮流选择从 <code>1</code> 到 <code>10</code> 的任意整数，累计整数和，先使得累计整数和 <strong>达到或超过</strong> 100 的玩家，即为胜者。</p>
+<p>如果我们将游戏规则改为 “玩家 <strong>不能</strong> 重复使用整数” 呢？</p>
+<p>例如，两个玩家可以轮流从公共整数池中抽取从 1 到 15 的整数（不放回），直到累计整数和 &gt;&#x3D; 100。</p>
+<p>给定两个整数 <code>maxChoosableInteger</code> （整数池中可选择的最大数）和 <code>desiredTotal</code>（累计和），若先出手的玩家是否能稳赢则返回 <code>true</code> ，否则返回 <code>false</code> 。假设两位玩家游戏时都表现 <strong>最佳</strong> 。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：maxChoosableInteger = 10, desiredTotal = 11
+输出：false
+解释：
+无论第一个玩家选择哪个整数，他都会失败。
+第一个玩家可以选择从 1 到 10 的整数。
+如果第一个玩家选择 1，那么第二个玩家只能选择从 2 到 10 的整数。
+第二个玩家可以通过选择整数 10（那么累积和为 11 &gt;= desiredTotal），从而取得胜利.
+同样地，第一个玩家选择任意其他整数，第二个玩家都会赢。
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入：maxChoosableInteger = 10, desiredTotal = 0
+输出：true
+</code></pre>
+<p><strong>示例 3:</strong></p>
+<pre><code>输入：maxChoosableInteger = 10, desiredTotal = 1
+输出：true
+</code></pre>
+<h3><span id="思路">思路</span></h3><p>首先想到的是暴力解法，也就就将每一种情况都遍历一遍。其实动态规划，也是在记忆dfs的基础上进行的，也就是其中一个是正向遍历(自顶向下)，一个是递归逆向的(自底向上)。</p>
+<p>那么怎么去记忆化。也就是找到变量并将其记录下来，下次再次遇到的时候就可以直接得到结果。</p>
+<p>这里的变量是，</p>
+<ul>
+<li>我们取的数和剩余的数(这里用二进制去表示取的数，因为m&lt;&#x3D;20,也就是20位，这样就可以用statae代表，而visited[state]记录着这个状态下的结果)</li>
+<li>sum</li>
+</ul>
+<p>依照这个思路写下代码如下；</p>
+<pre class=" language-c++"><code class="language-c++">class Solution &#123;
+private:
+    // visited[i] == 0，说明没有计算过
+    // visited[i] == 1，说明计算过，结果为 true
+    // visited[i] == 2，说明计算过，结果为 false
+    int visited[1 << 21];
+public:
+    bool canIWin(int maxChoosableInteger, int desiredTotal) &#123;
+        // 判断当前做选择的玩家（先手），是否一定赢
+        // 开始时，state = 0，表示「公共整数集」中的所有数字都未被使用过
+         if (maxChoosableInteger >= desiredTotal)
+            return true;
+        if (maxChoosableInteger * (maxChoosableInteger + 1) < 2*desiredTotal)
+            return false;
+
+        return dfs(0, 0, maxChoosableInteger, desiredTotal);
+    &#125;
+    
+    // 当前做选择的玩家是否一定赢
+    bool dfs(int state, int sum, int maxChoosableInteger, int desiredTotal) &#123;
+        if (visited[state] == 1) return true;
+        if (visited[state] == 2) return false;
+        // 遍历可选择的公共整数
+        for (int x = 1; x <= maxchoosableinteger; ++x) &#123; 如果 x 已经被使用过了，则不能选择 if ((1 << x) & state) continue; 如果选择了 以后，大于等于了 desiredtotal，当前玩家赢 (sum +>= desiredTotal) &#123;
+                visited[state] = 1;
+                return true;
+            &#125;
+            // 当前玩家选择了 x 以后，判断对方玩家一定输吗？
+            if (!dfs((1 << x) | state, sum + x, maxChoosableInteger, desiredTotal)) &#123;
+                visited[state] = 1;
+                return true;
+            &#125;
+        &#125;
+        visited[state] = 2;
+        return false;
+    &#125;
+    
+&#125;;
+</=></code></pre>
+
                 
             </div>
             <hr/>
@@ -495,7 +582,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zhongsy-zsy.github.io/2022/06/07/yu-yan/c/zhi-zhen-xiang-jie/">http://zhongsy-zsy.github.io/2022/06/07/yu-yan/c/zhi-zhen-xiang-jie/</a>
+                    <a href="http://zhongsy-zsy.github.io/2022/06/12/yu-yan/leetcode/dfs/464-wo-neng-ying-ma/">http://zhongsy-zsy.github.io/2022/06/12/yu-yan/leetcode/dfs/464-wo-neng-ying-ma/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -532,7 +619,15 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/leetcode/">
+                                    <span class="chip bg-color">leetcode</span>
+                                </a>
+                            
+                                <a href="/tags/dfs/">
+                                    <span class="chip bg-color">dfs</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -841,32 +936,48 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/06/10/hello-world/">
+                <a href="/2022/06/12/yu-yan/c/da-xiao-duan/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="大小端详解">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">大小端详解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            大小端的由来以及验证方法
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-10
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-12
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            ZhongSY
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/C/" class="post-category">
+                                    C++
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/hexo/">
+                        <span class="chip bg-color">hexo</span>
+                    </a>
+                    
+                    <a href="/tags/c-%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">c++基础</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -878,32 +989,48 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/06/07/yu-yan/linux/addr2line-shi-yong/">
+                <a href="/2022/06/12/yu-yan/python/python-jiao-ben/yu-ju-ti-qu-shu-ju-cun-ru-excel/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="语句提取数据存入excel">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">语句提取数据存入excel</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            从语句中提取需要的数据保存到csv文件
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-12
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            ZhongSY
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E8%84%9A%E6%9C%AC/" class="post-category">
+                                    脚本
+                                </a>
+                            
+                            <a href="/categories/%E8%84%9A%E6%9C%AC/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" class="post-category">
+                                    数据处理
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/python/">
+                        <span class="chip bg-color">python</span>
+                    </a>
+                    
                 </div>
                 
             </div>
