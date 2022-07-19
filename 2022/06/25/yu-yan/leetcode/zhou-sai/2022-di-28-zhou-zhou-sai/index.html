@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="工程认知, zhongsy_world">
+    <meta name="keywords" content="Leetcode 2022第297周周赛, zhongsy_world">
     <meta name="description" content="分享日常学习文档以及资料">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>工程认知 | zhongsy_world</title>
+    <title>Leetcode 2022第297周周赛 | zhongsy_world</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">工程认知</h1>
+                    <h1 class="description center-align post-title">Leetcode 2022第297周周赛</h1>
                 </div>
             </div>
         </div>
@@ -431,8 +431,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E4%BB%A3%E7%A0%81%E4%B9%A0%E6%83%AF/">
-                                <span class="chip bg-color">代码习惯</span>
+                            <a href="/tags/leetcode/">
+                                <span class="chip bg-color">leetcode</span>
+                            </a>
+                        
+                            <a href="/tags/dfs-%E6%A8%A1%E6%8B%9F/">
+                                <span class="chip bg-color">dfs 模拟</span>
                             </a>
                         
                     </div>
@@ -443,8 +447,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%B7%A5%E7%A8%8B%E6%80%9D%E7%BB%B4/" class="post-category">
-                                工程思维
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
                             </a>
                         
                     </div>
@@ -456,7 +460,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-06-13
+                    2022-06-25
                 </div>
                 
 
@@ -465,7 +469,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    188
+                    527
                 </div>
                 
 
@@ -482,23 +486,248 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1><span id></span></h1><h2><span id="思维">思维</span></h2><ul>
-<li><p>对于有关联的数据结构，最好组合在一起，形成类或者是结构体</p>
-</li>
-<li><p>在探索方案的时候，要做到一下几点</p>
-</li>
-</ul>
-<ol>
-<li>整理数据流程功能要走通</li>
-<li>想好如何复用现有的代码，功能而不是自己重写</li>
-<li>要学会提前设计好数据结构，不要没做好就弄，会浪费很多时间</li>
-</ol>
+                <h1><span id="2022-第297周周赛">2022 第297周周赛</span></h1><p>[toc]</p>
+<h2><span id="2303-计算应缴税款总额"></span></h2><p>难度简单5收藏分享切换为英文接收动态反馈</p>
+<p>给你一个下标从 <strong>0</strong> 开始的二维整数数组 <code>brackets</code> ，其中 <code>brackets[i] = [upperi, percenti]</code> ，表示第 <code>i</code> 个税级的上限是 <code>upperi</code> ，征收的税率为 <code>percenti</code> 。税级按上限 <strong>从低到高排序</strong>（在满足 <code>0 &lt; i &lt; brackets.length</code> 的前提下，<code>upperi-1 &lt; upperi</code>）。</p>
+<p>税款计算方式如下：</p>
 <ul>
-<li>遇到问题，先分段找到大致的范围， 之后先考虑可能的情况，然后依次排除可能性更高的情况</li>
+<li>不超过 <code>upper0</code> 的收入按税率 <code>percent0</code> 缴纳</li>
+<li>接着 <code>upper1 - upper0</code> 的部分按税率 <code>percent1</code> 缴纳</li>
+<li>然后 <code>upper2 - upper1</code> 的部分按税率 <code>percent2</code> 缴纳</li>
+<li>以此类推</li>
 </ul>
-<h2><span id="代码">代码</span></h2><ul>
-<li>在编写代码的初期，为了确保代码的准确性，可以适当的添加assert()，方便快速定位代码异常位置。之后再相应的删除代码。</li>
-</ul>
+<p>给你一个整数 <code>income</code> 表示你的总收入。返回你需要缴纳的税款总额。与标准答案误差不超 <code>10-5</code> 的结果将被视作正确答案。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：brackets = [[3,50],[7,10],[12,25]], income = 10
+输出：2.65000
+解释：
+前 $3 的税率为 50% 。需要支付税款 $3 * 50% = $1.50 。
+接下来 $7 - $3 = $4 的税率为 10% 。需要支付税款 $4 * 10% = $0.40 。
+最后 $10 - $7 = $3 的税率为 25% 。需要支付税款 $3 * 25% = $0.75 。
+需要支付的税款总计 $1.50 + $0.40 + $0.75 = $2.65 。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：brackets = [[1,0],[4,25],[5,50]], income = 2
+输出：0.25000
+解释：
+前 $1 的税率为 0% 。需要支付税款 $1 * 0% = $0 。
+剩下 $1 的税率为 25% 。需要支付税款 $1 * 25% = $0.25 。
+需要支付的税款总计 $0 + $0.25 = $0.25 。
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：brackets = [[2,50]], income = 0
+输出：0.00000
+解释：
+没有收入，无需纳税，需要支付的税款总计 $0 。
+</code></pre>
+<p>解题，就是简单的模拟，并没有太多的技巧。主要训练思维逻辑</p>
+<ol>
+<li>如果没有超过uper,那么剩余部分按照该汇率</li>
+<li>如果超过，超过部分另算，中间区间部分按照该汇率</li>
+</ol>
+<pre class=" language-c++"><code class="language-c++">class Solution &#123;
+public:
+    double calculateTax(vector<vector<int>>& brackets, int income) &#123;
+        double res = 0;
+        int remain = income;
+        for(int i=0;i<brackets.size();i++) &#123; int uper="brackets[i][0];" percentage="brackets[i][1];" if(income>= uper) &#123;
+                if(i==0) &#123;
+                    res += (uper*percentage)/100.0;
+                    remain -= uper;
+                &#125; else &#123;
+                    res += (uper - brackets[i-1][0])*percentage/100.0;
+                    remain -= uper-brackets[i-1][0];
+                &#125;
+            &#125; else &#123;
+                res += remain*percentage/100.0;
+                break;
+            &#125;
+        &#125;
+        return res;
+    &#125;
+&#125;;
+</brackets.size();i++)></vector<int></code></pre>
+<h2><span id="2304-网格中的最小路径代价"></span></h2><p>难度中等12收藏分享切换为英文接收动态反馈</p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数矩阵 <code>grid</code> ，矩阵大小为 <code>m x n</code> ，由从 <code>0</code> 到 <code>m * n - 1</code> 的不同整数组成。你可以在此矩阵中，从一个单元格移动到 <strong>下一行</strong> 的任何其他单元格。如果你位于单元格 <code>(x, y)</code> ，且满足 <code>x &lt; m - 1</code> ，你可以移动到 <code>(x + 1, 0)</code>, <code>(x + 1, 1)</code>, …, <code>(x + 1, n - 1)</code> 中的任何一个单元格。<strong>注意：</strong> 在最后一行中的单元格不能触发移动。</p>
+<p>每次可能的移动都需要付出对应的代价，代价用一个下标从 <strong>0</strong> 开始的二维数组 <code>moveCost</code> 表示，该数组大小为 <code>(m * n) x n</code> ，其中 <code>moveCost[i][j]</code> 是从值为 <code>i</code> 的单元格移动到下一行第 <code>j</code> 列单元格的代价。从 <code>grid</code> 最后一行的单元格移动的代价可以忽略。</p>
+<p><code>grid</code> 一条路径的代价是：所有路径经过的单元格的 <strong>值之和</strong> 加上 所有移动的 <strong>代价之和</strong> 。从 <strong>第一行</strong> 任意单元格出发，返回到达 <strong>最后一行</strong> 任意单元格的最小路径代价<em>。</em></p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2022/04/28/griddrawio-2.png" alt="img"></p>
+<pre><code>输入：grid = [[5,3],[4,0],[2,1]], moveCost = [[9,8],[1,5],[10,12],[18,6],[2,4],[14,3]]
+输出：17
+解释：最小代价的路径是 5 -&gt; 0 -&gt; 1 。
+- 路径途经单元格值之和 5 + 0 + 1 = 6 。
+- 从 5 移动到 0 的代价为 3 。
+- 从 0 移动到 1 的代价为 8 。
+路径总代价为 6 + 3 + 8 = 17 。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：grid = [[5,1,2],[4,0,3]], moveCost = [[12,10,15],[20,23,8],[21,7,1],[8,1,13],[9,10,25],[5,3,2]]
+输出：6
+解释：
+最小代价的路径是 2 -&gt; 3 。 
+- 路径途经单元格值之和 2 + 3 = 5 。 
+- 从 2 移动到 3 的代价为 1 。 
+路径总代价为 5 + 1 = 6 。
+</code></pre>
+<p>这个个选择问题：</p>
+<p>首先暴力解法，就不不断的选择，然后选取最小的结果，当然可以剪枝。</p>
+<p>我们可以自底向上，也就是动态规划</p>
+<p>dp[i][j]表示到达 （i，j）的最小代价，之后就可以根据这个含义去进行递推</p>
+<pre><code>class Solution &#123;
+public:
+    int minPathCost(vector&lt;vector&lt;int&gt;&gt;&amp; grid, vector&lt;vector&lt;int&gt;&gt;&amp; moveCost) &#123;
+        // 动态规划 dp[i][j] 代表到达i，j位置的最小代价
+        vector&lt;vector&lt;int&gt;&gt; dp(grid.size(), vector&lt;int&gt;(grid[0].size() , 0));
+        for(int i=0; i&lt;grid[0].size();i++) &#123;
+            dp[0][i] = grid[0][i];
+        &#125;
+
+        for(int i=1; i&lt;grid.size();i++) &#123;
+            for(int j=0; j&lt;grid[0].size(); j++) &#123;
+                for(int k=0; k&lt;grid[0].size(); k++) &#123;
+                    int lastVal = grid[i-1][k];
+                    int nowVal = grid[i][j];
+                    int cost = dp[i-1][k] + moveCost[lastVal][j] + nowVal;
+                    dp[i][j] = dp[i][j] == 0 ? cost : min(dp[i][j], cost);
+                &#125;
+            &#125;
+        &#125;
+
+        int minVal = dp[grid.size()-1][0];
+        for(int i=0;i&lt;grid[0].size();i++) &#123;
+            minVal = min(minVal, dp[grid.size()-1][i]);
+        &#125;
+        return minVal;
+        
+    &#125;
+&#125;;
+</code></pre>
+<h2><span id="2305-公平分发饼干"></span></h2><p>难度中等25收藏分享切换为英文接收动态反馈</p>
+<p>给你一个整数数组 <code>cookies</code> ，其中 <code>cookies[i]</code> 表示在第 <code>i</code> 个零食包中的饼干数量。另给你一个整数 <code>k</code> 表示等待分发零食包的孩子数量，<strong>所有</strong> 零食包都需要分发。在同一个零食包中的所有饼干都必须分发给同一个孩子，不能分开。</p>
+<p>分发的 <strong>不公平程度</strong> 定义为单个孩子在分发过程中能够获得饼干的最大总数。</p>
+<p>返回所有分发的最小不公平程度。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：cookies = [8,15,10,20,8], k = 2
+输出：31
+解释：一种最优方案是 [8,15,8] 和 [10,20] 。
+- 第 1 个孩子分到 [8,15,8] ，总计 8 + 15 + 8 = 31 块饼干。
+- 第 2 个孩子分到 [10,20] ，总计 10 + 20 = 30 块饼干。
+分发的不公平程度为 max(31,30) = 31 。
+可以证明不存在不公平程度小于 31 的分发方案。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：cookies = [6,1,3,2,2,4,1,2], k = 3
+输出：7
+解释：一种最优方案是 [6,1]、[3,2,2] 和 [4,1,2] 。
+- 第 1 个孩子分到 [6,1] ，总计 6 + 1 = 7 块饼干。 
+- 第 2 个孩子分到 [3,2,2] ，总计 3 + 2 + 2 = 7 块饼干。
+- 第 3 个孩子分到 [4,1,2] ，总计 4 + 1 + 2 = 7 块饼干。
+分发的不公平程度为 max(7,7,7) = 7 。
+可以证明不存在不公平程度小于 7 的分发方案。
+</code></pre>
+<p>解法： 暴力加剪枝，就是通过不断的分配求解出所有的组合，在选出最优组合</p>
+<pre class=" language-c++"><code class="language-c++">class Solution &#123;
+public:
+    // 分发饼干
+    // 1. 所有零食包必须分发，同一个零食包中的所有饼干只能发给一个好走 
+    // 返回最小的不公平程度，其实就是两包尽可能的平均
+    // 其实也可以变为一个背包问题
+    int minVal = INT_MAX;
+
+    int distributeCookies(vector<int>& cookies, int k) &#123;
+        queue<int> que;
+        for(auto v : cookies) &#123;
+            que.push(v);
+        &#125;   
+        vector<int> money(k,0);
+        backtrack(money,que);
+        return minVal;
+    &#125;
+
+    void backtrack(vector<int>& money, queue<int>& cookies) &#123;
+        if(cookies.empty()) &#123;
+            int val = *max_element(money.begin(),money.end());
+            minVal = min(val, minVal);
+            return;
+        &#125;
+
+        int v = cookies.front();
+        cookies.pop();
+        for(int i=0; i< money.size();i++) &#123;
+            money[i] += v;
+            if(money[i] > minVal) &#123;
+                money[i] -= v;
+                continue;
+            &#125;
+            backtrack(money,cookies);
+            money[i] -= v;
+        &#125;
+        cookies.push(v);
+
+    &#125; 
+&#125;;
+</int></int></int></int></int></code></pre>
+<h2><span id="2306-公司命名"></span></h2><p>难度困难29收藏分享切换为英文接收动态反馈</p>
+<p>给你一个字符串数组 <code>ideas</code> 表示在公司命名过程中使用的名字列表。公司命名流程如下：</p>
+<ol>
+<li>从 <code>ideas</code> 中选择 2 个 <strong>不同</strong> 名字，称为 <code>ideaA</code> 和 <code>ideaB</code> 。</li>
+<li>交换 <code>ideaA</code> 和 <code>ideaB</code> 的首字母。</li>
+<li>如果得到的两个新名字 <strong>都</strong> 不在 <code>ideas</code> 中，那么 <code>ideaA ideaB</code>（<strong>串联</strong> <code>ideaA</code> 和 <code>ideaB</code> ，中间用一个空格分隔）是一个有效的公司名字。</li>
+<li>否则，不是一个有效的名字。</li>
+</ol>
+<p>返回 <strong>不同</strong> 且有效的公司名字的数目。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：ideas = [&quot;coffee&quot;,&quot;donuts&quot;,&quot;time&quot;,&quot;toffee&quot;]
+输出：6
+解释：下面列出一些有效的选择方案：
+- (&quot;coffee&quot;, &quot;donuts&quot;)：对应的公司名字是 &quot;doffee conuts&quot; 。
+- (&quot;donuts&quot;, &quot;coffee&quot;)：对应的公司名字是 &quot;conuts doffee&quot; 。
+- (&quot;donuts&quot;, &quot;time&quot;)：对应的公司名字是 &quot;tonuts dime&quot; 。
+- (&quot;donuts&quot;, &quot;toffee&quot;)：对应的公司名字是 &quot;tonuts doffee&quot; 。
+- (&quot;time&quot;, &quot;donuts&quot;)：对应的公司名字是 &quot;dime tonuts&quot; 。
+- (&quot;toffee&quot;, &quot;donuts&quot;)：对应的公司名字是 &quot;doffee tonuts&quot; 。
+因此，总共有 6 个不同的公司名字。
+
+下面列出一些无效的选择方案：
+- (&quot;coffee&quot;, &quot;time&quot;)：在原数组中存在交换后形成的名字 &quot;toffee&quot; 。
+- (&quot;time&quot;, &quot;toffee&quot;)：在原数组中存在交换后形成的两个名字。
+- (&quot;coffee&quot;, &quot;toffee&quot;)：在原数组中存在交换后形成的两个名字。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：ideas = [&quot;lack&quot;,&quot;back&quot;]
+输出：0
+解释：不存在有效的选择方案。因此，返回 0 。
+</code></pre>
+<p>关键是这样的。</p>
+<p>设置pre[i][j] 代表的含义就是，将首字母i变为j后不在队列中的idea个数</p>
+<p>这时候就知道，如果pre[j][i] 代表的是将首字母从j变成i后不在队列的idea的个数</p>
+<p>含义就是 axx 与 bxxx相互交换首字母后都不在队列里面。</p>
+<pre><code>using ll = long long;
+
+class Solution &#123;
+public:
+    long long distinctNames(vector&lt;string&gt;&amp; ideas) &#123;
+        unordered_set&lt;string&gt; s(ideas.begin(), ideas.end());
+        vector&lt;vector&lt;ll&gt;&gt; cnt(26, vector&lt;ll&gt;(26));
+
+        for(string&amp; is : ideas)&#123;
+            int pre = is[0] - &#39;a&#39;;
+            for(int i = 0; i &lt; 26; ++i)&#123;
+                is[0] = (i + &#39;a&#39;);
+                if(!s.count(is)) cnt[pre][i]++;
+            &#125;
+        &#125;
+
+        ll ans = 0;
+        for(int i = 0; i &lt; 26; ++i)&#123;
+            for(int j = 0; j &lt; 26; ++j) ans += cnt[i][j] * cnt[j][i];
+        &#125;
+
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
 
                 
             </div>
@@ -525,7 +754,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zhongsy-zsy.github.io/2022/06/13/yu-yan/gong-cheng-ren-zhi/gong-cheng-ren-zhi/">http://zhongsy-zsy.github.io/2022/06/13/yu-yan/gong-cheng-ren-zhi/gong-cheng-ren-zhi/</a>
+                    <a href="http://zhongsy-zsy.github.io/2022/06/25/yu-yan/leetcode/zhou-sai/2022-di-28-zhou-zhou-sai/">http://zhongsy-zsy.github.io/2022/06/25/yu-yan/leetcode/zhou-sai/2022-di-28-zhou-zhou-sai/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -563,8 +792,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E4%BB%A3%E7%A0%81%E4%B9%A0%E6%83%AF/">
-                                    <span class="chip bg-color">代码习惯</span>
+                                <a href="/tags/leetcode/">
+                                    <span class="chip bg-color">leetcode</span>
+                                </a>
+                            
+                                <a href="/tags/dfs-%E6%A8%A1%E6%8B%9F/">
+                                    <span class="chip bg-color">dfs 模拟</span>
                                 </a>
                             
                         </div>
@@ -875,6 +1108,59 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
+                <a href="/2022/07/19/mian-shi/jian-li-zhi-zuo/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="简历制作">
+                        
+                        <span class="card-title">简历制作</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            关于简历制作的一些经验
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-07-19
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E9%9D%A2%E8%AF%95/" class="post-category">
+                                    面试
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E9%9D%A2%E7%BB%8F/">
+                        <span class="chip bg-color">面经</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%80%E5%8E%86/">
+                        <span class="chip bg-color">简历</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
                 <a href="/2022/06/21/yu-yan/cmake/cmake-shi-ru-he-gong-zuo-de/">
                     <div class="card-image">
                         
@@ -891,9 +1177,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -911,59 +1197,6 @@
                     
                     <a href="/tags/CMake/">
                         <span class="chip bg-color">CMake</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/06/12/hexo-shi-yong-jiao-cheng/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Hexo使用教程">
-                        
-                        <span class="card-title">Hexo使用教程</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            hexo简介
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-12
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
-                                    工具
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/hexo/">
-                        <span class="chip bg-color">hexo</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                        <span class="chip bg-color">工具</span>
                     </a>
                     
                 </div>
