@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>leetcode 768. 最多能完成排序的块 II</title>
+      <link href="/2022/08/12/yu-yan/leetcode/mei-ri-yi-ti/dan-diao-zhan/leetcode768-zui-duo-neng-wan-cheng-pai-xu-de-kuai/"/>
+      <url>/2022/08/12/yu-yan/leetcode/mei-ri-yi-ti/dan-diao-zhan/leetcode768-zui-duo-neng-wan-cheng-pai-xu-de-kuai/</url>
+      
+        <content type="html"><![CDATA[<p><a href="https://leetcode.cn/problems/max-chunks-to-make-sorted-ii/">768. 最多能完成排序的块 II</a></p><p>难度困难185收藏分享切换为英文接收动态反馈</p><p><em>这个问题和“最多能完成排序的块”相似，但给定数组中的元素可以重复，输入数组最大长度为<code>2000</code>，其中的元素最大为<code>10**8</code>。</em></p><p><code>arr</code>是一个可能包含<strong>重复元素</strong>的整数数组，我们将这个数组分割成几个“块”，并将这些块分别进行排序。之后再连接起来，使得连接的结果和按升序排序后的原数组相同。</p><p>我们最多能将数组分成多少块？</p><p><strong>示例 1:</strong></p><pre><code>输入: arr = [5,4,3,2,1]输出: 1解释:将数组分成2块或者更多块，都无法得到所需的结果。例如，分成 [5, 4], [3, 2, 1] 的结果是 [4, 5, 1, 2, 3]，这不是有序的数组。 </code></pre><p><strong>示例 2:</strong></p><pre><code>输入: arr = [2,1,3,4,4]输出: 4解释:我们可以把它分成两块，例如 [2, 1], [3, 4, 4]。然而，分成 [2, 1], [3], [4], [4] 可以得到最多的块数。 </code></pre><p><strong>注意:</strong></p><ul><li><code>arr</code>的长度在<code>[1, 2000]</code>之间。</li><li><code>arr[i]</code>的大小在<code>[0, 10**8]</code>之间。</li></ul><h2><span id="解析">解析</span></h2><p>根据题目的意思可能明确知道，尽量分块使得最后能分块的个数最多。是一个最值问题，那么就可以使用贪心算法，也就是使得每一个分块的窗口最小。</p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/image-20220813153547212.png" alt="image-20220813153547212" style="zoom:50%;"><p>其实每一次窗口的左边界是确定的(上一次的右边界值)，代表的是左闭右开，我们需要确定的是最小的右边界。</p><p>这时候通过模拟发现:</p><blockquote><p>某一段能否成为区间是取决于后面的元素，也就是说，区间后面的元素都要 &lt;&#x3D; 区间内的最大值</p></blockquote><pre class=" language-c++"><code class="language-c++">/*    加入可能不能分块的情况，也就是说，分块的排序最后与整体的排序一致    设计数据结构    std:::map<std::set<int>> data    第一层索引代表的是数字    第二层索引代表的是位置*/#include <vector>#include <map>#include <set>#include <iostream>class Solution &#123;public:    int maxChunksToSorted(std::vector<int>& arr) &#123;        int result = 0;        int left = 0;        int right = 0;        int max_val;        while(left < arr.size()) &#123;            int index_val = arr[right];            // 查看后面是否有比自己更小的值            max_val = index_val;  // max_val代表当前区间内的最大值            int tmp_max = max_val;            // 后面有没有比区间内最大值更小的值了            for(int i = right + 1; i < arr.size(); ++i) &#123;                int val = arr[i];                if(val < max_val) &#123; // 扩大区间                    left = i;                    max_val = tmp_max;                    tmp_max = max_val;                &#125; else &#123;                    tmp_max = tmp_max>val? tmp_max : val;                &#125;            &#125;            left = left + 1;            right = left;            result++;        &#125;        return result;    &#125;    void BuildIndex(std::map<int, std::set<int> >& data, std::vector<int>& arr) &#123;                for(int i = 0; i <  arr.size(); ++i) &#123;            data[arr[i]].insert(i);        &#125;    &#125;&#125;;</int></int,></int></iostream></set></map></vector></std::set<int></code></pre><p>由于处理结果取决与后面元素的分布情况，适用于栈的处理方式</p><p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/image-20220813164204130.png" alt="image-20220813164204130"></p><p>栈内每一个色块代表的是可能成为的一个组，值代表组内的最大值；当后面有值小于当前的最大值的时候就需要合并。最终的思想就是后面的元素都大于等于当前块内的最大值。</p><pre class=" language-c++"><code class="language-c++">class Solution &#123;public:    stack<int> _st;    int maxChunksToSorted(vector<int>& arr) &#123;        for(auto& val : arr) &#123;            if(_st.empty()) &#123;                _st.push(val);            &#125; else &#123;                if(_st.top() <= val) &#123; _st.push(val); &#125; else if(_st.empty()) continue; int tmp_max="_st.top();" while(!_st.empty() && _st.top()> val) &#123;                        _st.pop();                    &#125;                    // 更新最大值                    _st.push(tmp_max);                &#125;            &#125;        &#125;        return _st.size();    &#125;&#125;;</=></int></int></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 算法 </category>
+          
+          <category> 单调栈 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 单调栈 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>简历制作</title>
       <link href="/2022/07/19/mian-shi/jian-li-zhi-zuo/"/>
       <url>/2022/07/19/mian-shi/jian-li-zhi-zuo/</url>

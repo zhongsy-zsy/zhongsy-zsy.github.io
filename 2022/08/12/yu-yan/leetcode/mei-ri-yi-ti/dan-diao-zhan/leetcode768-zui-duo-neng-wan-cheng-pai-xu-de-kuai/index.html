@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="工程认知, zhongsy_world">
+    <meta name="keywords" content="leetcode 768. 最多能完成排序的块 II, zhongsy_world">
     <meta name="description" content="分享日常学习文档以及资料">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>工程认知 | zhongsy_world</title>
+    <title>leetcode 768. 最多能完成排序的块 II | zhongsy_world</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">工程认知</h1>
+                    <h1 class="description center-align post-title">leetcode 768. 最多能完成排序的块 II</h1>
                 </div>
             </div>
         </div>
@@ -431,8 +431,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E4%BB%A3%E7%A0%81%E4%B9%A0%E6%83%AF/">
-                                <span class="chip bg-color">代码习惯</span>
+                            <a href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/">
+                                <span class="chip bg-color">单调栈</span>
                             </a>
                         
                     </div>
@@ -443,8 +443,12 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%B7%A5%E7%A8%8B%E6%80%9D%E7%BB%B4/" class="post-category">
-                                工程思维
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
+                            </a>
+                        
+                            <a href="/categories/%E7%AE%97%E6%B3%95/%E5%8D%95%E8%B0%83%E6%A0%88/" class="post-category">
+                                单调栈
                             </a>
                         
                     </div>
@@ -456,7 +460,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-06-13
+                    2022-08-12
                 </div>
                 
 
@@ -465,7 +469,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    188
+                    673
                 </div>
                 
 
@@ -482,23 +486,114 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1><span id></span></h1><h2><span id="思维">思维</span></h2><ul>
-<li><p>对于有关联的数据结构，最好组合在一起，形成类或者是结构体</p>
-</li>
-<li><p>在探索方案的时候，要做到一下几点</p>
-</li>
-</ul>
-<ol>
-<li>整理数据流程功能要走通</li>
-<li>想好如何复用现有的代码，功能而不是自己重写</li>
-<li>要学会提前设计好数据结构，不要没做好就弄，会浪费很多时间</li>
-</ol>
+                <p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/max-chunks-to-make-sorted-ii/">768. 最多能完成排序的块 II</a></p>
+<p>难度困难185收藏分享切换为英文接收动态反馈</p>
+<p><em>这个问题和“最多能完成排序的块”相似，但给定数组中的元素可以重复，输入数组最大长度为<code>2000</code>，其中的元素最大为<code>10**8</code>。</em></p>
+<p><code>arr</code>是一个可能包含<strong>重复元素</strong>的整数数组，我们将这个数组分割成几个“块”，并将这些块分别进行排序。之后再连接起来，使得连接的结果和按升序排序后的原数组相同。</p>
+<p>我们最多能将数组分成多少块？</p>
+<p><strong>示例 1:</strong></p>
+<pre><code>输入: arr = [5,4,3,2,1]
+输出: 1
+解释:
+将数组分成2块或者更多块，都无法得到所需的结果。
+例如，分成 [5, 4], [3, 2, 1] 的结果是 [4, 5, 1, 2, 3]，这不是有序的数组。 
+</code></pre>
+<p><strong>示例 2:</strong></p>
+<pre><code>输入: arr = [2,1,3,4,4]
+输出: 4
+解释:
+我们可以把它分成两块，例如 [2, 1], [3, 4, 4]。
+然而，分成 [2, 1], [3], [4], [4] 可以得到最多的块数。 
+</code></pre>
+<p><strong>注意:</strong></p>
 <ul>
-<li>遇到问题，先分段找到大致的范围， 之后先考虑可能的情况，然后依次排除可能性更高的情况</li>
+<li><code>arr</code>的长度在<code>[1, 2000]</code>之间。</li>
+<li><code>arr[i]</code>的大小在<code>[0, 10**8]</code>之间。</li>
 </ul>
-<h2><span id="代码">代码</span></h2><ul>
-<li>在编写代码的初期，为了确保代码的准确性，可以适当的添加assert()，方便快速定位代码异常位置。之后再相应的删除代码。</li>
-</ul>
+<h2><span id="解析">解析</span></h2><p>根据题目的意思可能明确知道，尽量分块使得最后能分块的个数最多。是一个最值问题，那么就可以使用贪心算法，也就是使得每一个分块的窗口最小。</p>
+<img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/image-20220813153547212.png" alt="image-20220813153547212" style="zoom:50%;">
+
+<p>其实每一次窗口的左边界是确定的(上一次的右边界值)，代表的是左闭右开，我们需要确定的是最小的右边界。</p>
+<p>这时候通过模拟发现:</p>
+<blockquote>
+<p>某一段能否成为区间是取决于后面的元素，也就是说，区间后面的元素都要 &lt;&#x3D; 区间内的最大值</p>
+</blockquote>
+<pre class=" language-c++"><code class="language-c++">/*
+    加入可能不能分块的情况，也就是说，分块的排序最后与整体的排序一致
+    设计数据结构
+    std:::map<std::set<int>> data
+    第一层索引代表的是数字
+    第二层索引代表的是位置
+*/
+
+#include <vector>
+#include <map>
+#include <set>
+#include <iostream>
+
+class Solution &#123;
+public:
+    int maxChunksToSorted(std::vector<int>& arr) &#123;
+        int result = 0;
+        int left = 0;
+        int right = 0;
+        int max_val;
+        while(left < arr.size()) &#123;
+            int index_val = arr[right];
+            // 查看后面是否有比自己更小的值
+            max_val = index_val;  // max_val代表当前区间内的最大值
+            int tmp_max = max_val;
+            // 后面有没有比区间内最大值更小的值了
+            for(int i = right + 1; i < arr.size(); ++i) &#123;
+                int val = arr[i];
+                if(val < max_val) &#123; // 扩大区间
+                    left = i;
+                    max_val = tmp_max;
+                    tmp_max = max_val;
+                &#125; else &#123;
+                    tmp_max = tmp_max>val? tmp_max : val;
+                &#125;
+            &#125;
+            left = left + 1;
+            right = left;
+            result++;
+        &#125;
+        return result;
+    &#125;
+
+
+    void BuildIndex(std::map<int, std::set<int> >& data, std::vector<int>& arr) &#123;
+        
+        for(int i = 0; i <  arr.size(); ++i) &#123;
+            data[arr[i]].insert(i);
+        &#125;
+    &#125;
+&#125;;
+</int></int,></int></iostream></set></map></vector></std::set<int></code></pre>
+<p>由于处理结果取决与后面元素的分布情况，适用于栈的处理方式</p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/image-20220813164204130.png" alt="image-20220813164204130"></p>
+<p>栈内每一个色块代表的是可能成为的一个组，值代表组内的最大值；当后面有值小于当前的最大值的时候就需要合并。最终的思想就是后面的元素都大于等于当前块内的最大值。</p>
+<pre class=" language-c++"><code class="language-c++">class Solution &#123;
+public:
+    stack<int> _st;
+    int maxChunksToSorted(vector<int>& arr) &#123;
+        for(auto& val : arr) &#123;
+            if(_st.empty()) &#123;
+                _st.push(val);
+            &#125; else &#123;
+                if(_st.top() <= val) &#123; _st.push(val); &#125; else if(_st.empty()) continue; int tmp_max="_st.top();" while(!_st.empty() && _st.top()> val) &#123;
+                        _st.pop();
+                    &#125;
+                    // 更新最大值
+                    _st.push(tmp_max);
+                &#125;
+            &#125;
+        &#125;
+        return _st.size();
+
+    &#125;
+&#125;;
+</=></int></int></code></pre>
 
                 
             </div>
@@ -525,7 +620,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zhongsy-zsy.github.io/2022/06/13/yu-yan/gong-cheng-ren-zhi/gong-cheng-ren-zhi/">http://zhongsy-zsy.github.io/2022/06/13/yu-yan/gong-cheng-ren-zhi/gong-cheng-ren-zhi/</a>
+                    <a href="http://zhongsy-zsy.github.io/2022/08/12/yu-yan/leetcode/mei-ri-yi-ti/dan-diao-zhan/leetcode768-zui-duo-neng-wan-cheng-pai-xu-de-kuai/">http://zhongsy-zsy.github.io/2022/08/12/yu-yan/leetcode/mei-ri-yi-ti/dan-diao-zhan/leetcode768-zui-duo-neng-wan-cheng-pai-xu-de-kuai/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -563,8 +658,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E4%BB%A3%E7%A0%81%E4%B9%A0%E6%83%AF/">
-                                    <span class="chip bg-color">代码习惯</span>
+                                <a href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/">
+                                    <span class="chip bg-color">单调栈</span>
                                 </a>
                             
                         </div>
@@ -871,46 +966,52 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/06/21/yu-yan/cmake/cmake-shi-ru-he-gong-zuo-de/">
+                <a href="/2022/08/12/yu-yan/leetcode/mei-ri-yi-ti/dan-diao-zhan/leetcode768-zui-duo-neng-wan-cheng-pai-xu-de-kuai/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="CMake是如何工作的">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="leetcode 768. 最多能完成排序的块 II">
                         
-                        <span class="card-title">CMake是如何工作的</span>
+                        <span class="card-title">leetcode 768. 最多能完成排序的块 II</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            CMake工作的流程已经原理介绍；CMake纠正错误心得
+                            单调栈
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-12
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/CMake/" class="post-category">
-                                    CMake
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/%E5%8D%95%E8%B0%83%E6%A0%88/" class="post-category">
+                                    单调栈
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CMake/">
-                        <span class="chip bg-color">CMake</span>
+                    <a href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/">
+                        <span class="chip bg-color">单调栈</span>
                     </a>
                     
                 </div>
@@ -924,31 +1025,31 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/06/12/hexo-shi-yong-jiao-cheng/">
+                <a href="/2022/07/19/mian-shi/jian-li-zhi-zuo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Hexo使用教程">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="简历制作">
                         
-                        <span class="card-title">Hexo使用教程</span>
+                        <span class="card-title">简历制作</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            hexo简介
+                            关于简历制作的一些经验
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-12
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-19
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
-                                    工具
+                            <a href="/categories/%E9%9D%A2%E8%AF%95/" class="post-category">
+                                    面试
                                 </a>
                             
                             
@@ -958,12 +1059,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/hexo/">
-                        <span class="chip bg-color">hexo</span>
+                    <a href="/tags/%E9%9D%A2%E7%BB%8F/">
+                        <span class="chip bg-color">面经</span>
                     </a>
                     
-                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                        <span class="chip bg-color">工具</span>
+                    <a href="/tags/%E7%AE%80%E5%8E%86/">
+                        <span class="chip bg-color">简历</span>
                     </a>
                     
                 </div>
