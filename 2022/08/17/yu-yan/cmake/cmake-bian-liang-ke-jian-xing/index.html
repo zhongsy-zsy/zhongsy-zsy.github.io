@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, zhongsy_world">
+    <meta name="keywords" content="CMake 变量Scope, zhongsy_world">
     <meta name="description" content="分享日常学习文档以及资料">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World | zhongsy_world</title>
+    <title>CMake 变量Scope | zhongsy_world</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World</h1>
+                    <h1 class="description center-align post-title">CMake 变量Scope</h1>
                 </div>
             </div>
         </div>
@@ -429,12 +429,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/CMake/">
+                                <span class="chip bg-color">CMake</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/CMake/" class="post-category">
+                                CMake
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -443,7 +456,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-06-10
+                    2022-08-17
                 </div>
                 
 
@@ -452,7 +465,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    73
+                    1.1k
                 </div>
                 
 
@@ -469,19 +482,235 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2><span id="quick-start">Quick Start</span></h2><h3><span id="create-a-new-post">Create a new post</span></h3><pre class=" language-bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span>
+                <h1><span id="cmake变量可见性">CMake变量可见性</span></h1><p>变量是CMake的基本存储单元，与别的语言的变量在理解上别无二致。CMake变量名大小写敏感，通常与数字、字母、_、-构成。</p>
+<p>但是不同的是需要注意CMake变量的作用域。</p>
+<p>主要有以下几个作用域</p>
+<ul>
+<li>目录作用域</li>
+<li>文件作用域</li>
+<li>函数作用域</li>
+<li>Persistent Cache</li>
+</ul>
+<h2><span id="add_subdirector-vs-include"><strong>add_subdirector vs include</strong></span></h2><p>假设有以下CMake Project </p>
+<pre><code>CMake_Test
+|__Child
+|	 |_ CMakeLists.txt
+|_ CMakeLists.txt
 </code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3><span id="run-server">Run server</span></h3><pre class=" language-bash"><code class="language-bash">$ hexo server
+<p>其中CMake_Test目录中的CMakeLists.txt文件内容如下：</p>
+<pre class=" language-cmake"><code class="language-cmake"># parent CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.2)
+
+project(Test_CMake)
+
+set(A "parent")
+
+add_subdirectory(child)
+
+message("Parent A val $&#123;A&#125;")
 </code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3><span id="generate-static-files">Generate static files</span></h3><pre class=" language-bash"><code class="language-bash">$ hexo generate
+<p>child中的CMakeLists.txt</p>
+<pre class=" language-cmake"><code class="language-cmake"># child CMakeLists.txt
+
+set(A "child")
+
+message("Child A val $&#123;A&#125;")
 </code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3><span id="deploy-to-remote-sites">Deploy to remote sites</span></h3><pre class=" language-bash"><code class="language-bash">$ hexo deploy
+<p>输出</p>
+<pre><code>Child A val child
+Parent A val parent
 </code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>发现子目录的变量只会作用与自身并不会影响Parent目录。是什么原因？</p>
+<p>实际上是<code>add_subdirectory</code>命令；在<code>add_subdirectory</code>被执行的时候，会创建一块独立的区域去执行子目录的CMakeLists.txt文件，同时会拷贝一份A的变量去独立区域，大概的示意图如下：</p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/1*jGGvhYHJNEJxT7zD63icXA.png" alt="img"></p>
+<p>如图所以，Child中是Parent的副本。</p>
+<p>改变CMakeLists.txt</p>
+<pre class=" language-cmake"><code class="language-cmake"># parent CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.2)
+
+project(Test_CMake)
+
+add_subdirectory(child)
+
+set(A "parent")
+
+message("Parent A val $&#123;A&#125;")
+</code></pre>
+<p>输出</p>
+<pre><code>Child A val 
+Parent A val parent
+</code></pre>
+<p>得出结论 &#x3D;&#x3D;<code>add_subdirectory</code>只会对之前可见的变量做拷贝&#x3D;&#x3D;</p>
+<p>现在改变Parent CMakeLists.txt的内容</p>
+<pre class=" language-cmake"><code class="language-cmake"># parent CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.2)
+
+project(Test_CMake)
+
+set(A "parent")
+
+include(child)
+
+message("Parent A val $&#123;A&#125;")
+</code></pre>
+<p>执行结果如下：</p>
+<pre><code>Child A val child
+Parent A val child
+</code></pre>
+<p>与<code>add_subdirectory</code>相反<code>include</code>使得child与parent的scope一致，所以当我们include中set的时候会直接影响parent的值。</p>
+<p>可以简单的理解为&#x3D;&#x3D;add_subdirectory&#x3D;&#x3D;是C++中的传值调用，&#x3D;&#x3D;include&#x3D;&#x3D;是C++中的传引用(指针)调用</p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/1*0PRBYJVoj81eHQwkxj1ikA.png" alt="img"></p>
+<p>那么如果是使用<code>add_subdirectory</code>那么如何在child中改变parent的值，实现如下：</p>
+<pre class=" language-cmake"><code class="language-cmake"># child CMakeLists.txt
+
+set(A "child" PARENT_SCOPE)
+
+message("Child A val $&#123;A&#125;")
+</code></pre>
+<p>输出</p>
+<pre><code>Child A val parent
+Parent A val child
+</code></pre>
+<p>简单理解：</p>
+<p>加入<code>PARENT_SCOPE</code>会直接修改parent目录下Ade值，但是并不会对当前目录下的copy A’进行修改</p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/1*GDB14MRwLsZOWH6m0lcPBg.png" alt="img"></p>
+<p>这时候可以看出<code>add_subdirectory</code>的时候是目录作用域，每个目录下的CMakeLists.txt是隔离的。</p>
+<p><code>include</code>时候是文件作用域，都作用在parent CmakeLists</p>
+<h2><span id="macro-vs-function">Macro vs Function</span></h2><pre class=" language-cmake"><code class="language-cmake"># parent CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.2)
+
+project(Test_CMake)
+
+function(fun)
+    set(A "fuc A")
+endfunction()
+
+
+
+set(A "parent")
+
+fun()
+
+# include(child/CMakeLists.txt)
+add_subdirectory(child)
+
+message("Parent A val $&#123;A&#125;")
+</code></pre>
+<p>输出</p>
+<pre><code>Child A val parent
+Parent A val child
+</code></pre>
+<p>说明这时候function中<code>set</code>的变量就好像是&#x3D;&#x3D;函数定义的局部变量不会影响到外部&#x3D;&#x3D;</p>
+<p>如果是传值呢？？？？</p>
+<pre class=" language-cmake"><code class="language-cmake"># parent CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.2)
+
+project(Test_CMake)
+
+function(fun param)
+    set($&#123;param&#125; "fuc A")
+endfunction()
+
+
+
+set(A "parent")
+
+fun(A)
+
+# include(child/CMakeLists.txt)
+add_subdirectory(child)
+
+message("Parent A val $&#123;A&#125;")
+</code></pre>
+<p>输出</p>
+<pre><code>Child A val parent
+Parent A val child
+</code></pre>
+<p>就算是传值也是copy传递的。</p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/1*5T8b5u0KVPEZZfxDPFFpAA.png" alt="img"></p>
+<p><strong>使用macro代替function</strong></p>
+<pre class=" language-cmake"><code class="language-cmake"># parent CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.2)
+
+project(Test_CMake)
+
+function(fun param)
+    set($&#123;param&#125; "fuc A")
+endfunction()
+
+macro(funmacro param)
+    set(A "macro fun")
+endmacro()
+
+
+
+set(A "parent")
+
+# fun(A)
+funmacro(A)
+
+# include(child/CMakeLists.txt)
+add_subdirectory(child)
+
+message("Parent A val $&#123;A&#125;")
+</code></pre>
+<p>输出</p>
+<pre><code>Child A val child
+Parent A val macro fun
+-- Configuring done
+-- Generating done
+</code></pre>
+<p>如果改为传参模式</p>
+<pre class=" language-cmake"><code class="language-cmake">        # parent CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.2)
+
+project(Test_CMake)
+
+function(fun param)
+    set($&#123;param&#125; "fuc A")
+endfunction()
+
+macro(funmacro param)
+    set($&#123;param&#125; "macro fun")
+    message("param $&#123;param&#125;")
+endmacro()
+
+
+
+set(A "parent")
+
+# fun(A)
+funmacro(A)
+
+# include(child/CMakeLists.txt)
+add_subdirectory(child)
+
+message("Parent A val $&#123;A&#125;")
+</code></pre>
+<p>输出</p>
+<pre><code>param A
+Child A val child
+Parent A val macro fun
+</code></pre>
+<p>通过结果可知，macro与include类似，与Parent工作在同一空间之中。</p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/1*TALyVZ80_Xq3S9CXwMhrZw.png" alt="img"></p>
+<p>如果想要在<code>add_subdirectory</code>中定义函数改变Parent中的值，就需要在set中加入<code>PARENT_SCOPE</code>。</p>
+<p>也就是说function与macro，前者是函数作用域后者是文件作用域。</p>
+<h2><span id="persistent-cache">Persistent Cache</span></h2><p>缓存变量，拥有着独立的scope，只能通过特定的请求改变其值，比如<code>set</code>,<code>uset</code>的时候带上<code>Cache</code>选项。Cache变量在整个CMake工程的编译声明周期中都有效。工程中任意的目录都可以访问Cache变量，&#x3D;&#x3D;类似于全局静态变量&#x3D;&#x3D;。&#x3D;&#x3D;需要注意的是，CMake是从上到下进行解析CMakeLists,tx文件的。&#x3D;&#x3D;</p>
+<blockquote>
+<p>set(cache_var1 “persistent-缓存变量1” CACHE STRING “abc”) </p>
+</blockquote>
+<p>编译后，可以在bulid&#x2F;CMakeCache.txt中看到该变量</p>
+<h2><span id="参考">参考</span></h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43708622/article/details/108315184">cmake-变量作用域</a></p>
+<p><a target="_blank" rel="noopener" href="https://levelup.gitconnected.com/cmake-variable-scope-f062833581b7">CMake Variable Scope</a></p>
+<h2><span id="更多内容">更多内容</span></h2><p><a href="https://zhongsy-zsy.github.io/">更多内容</a></p>
 
                 
             </div>
@@ -508,7 +737,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zhongsy-zsy.github.io/2022/06/10/hello-world/">http://zhongsy-zsy.github.io/2022/06/10/hello-world/</a>
+                    <a href="http://zhongsy-zsy.github.io/2022/08/17/yu-yan/cmake/cmake-bian-liang-ke-jian-xing/">http://zhongsy-zsy.github.io/2022/08/17/yu-yan/cmake/cmake-bian-liang-ke-jian-xing/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -545,7 +774,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/CMake/">
+                                    <span class="chip bg-color">CMake</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -850,36 +1083,50 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/06/10/yin-shi-pin-ji-chu/rtc/rtc-suan-fa-ji-chu/">
+                <a href="/2022/08/17/yu-yan/cmake/cmake-bian-liang-ke-jian-xing/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="post">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="CMake 变量Scope">
                         
-                        <span class="card-title">post</span>
+                        <span class="card-title">CMake 变量Scope</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            CMake 变量scope学习
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-10
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-17
+                            </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            ZhongSY
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CMake/" class="post-category">
+                                    CMake
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CMake/">
+                        <span class="chip bg-color">CMake</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -888,37 +1135,52 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/06/10/hello-world/">
+                <a href="/2022/08/12/yu-yan/leetcode/mei-ri-yi-ti/dan-diao-zhan/leetcode768-zui-duo-neng-wan-cheng-pai-xu-de-kuai/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="leetcode 768. 最多能完成排序的块 II">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">leetcode 768. 最多能完成排序的块 II</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            单调栈
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-12
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            ZhongSY
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/%E5%8D%95%E8%B0%83%E6%A0%88/" class="post-category">
+                                    单调栈
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/">
+                        <span class="chip bg-color">单调栈</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
