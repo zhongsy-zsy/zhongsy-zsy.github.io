@@ -486,11 +486,11 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1><span id="音视频同步">音视频同步</span></h1><h2><span id="音频系统概述">音频系统概述</span></h2><p><img src="https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=YmZjYWFhYjFiYzYwMmMxZmU3NzRiNjRlNGUyYjNhYmVfOW9ieWRxWHZQbWR1SnBxUEpvNFl1MGEyRFJibGQwa0VfVG9rZW46Ym94Y254Vm42TVpQWVJidVFoUmc5azZZbW1oXzE2Njk5ODUxNjE6MTY2OTk4ODc2MV9WNA" alt="img"></p>
+                <h1><span id="音视频同步">音视频同步</span></h1><h2><span id="音频系统概述">音频系统概述</span></h2><p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/(null).png" alt="img"></p>
 <ol>
 <li><p>音频时延payload_delay_ms  jitter_delay(neteq)。</p>
 </li>
-<li><p>在WebRTC和ByteRTC中都有neteq，所以，音频的卡顿以及卡顿时长都是放在neteq内部进行计算的。</p>
+<li><p>在WebRTC中有neteq，所以，音频的卡顿以及卡顿时长都是放在neteq内部进行计算的。</p>
 </li>
 </ol>
 <h2><span id="时间戳">时间戳</span></h2><p>时间戳的概念主要有以下几个：</p>
@@ -502,10 +502,10 @@
 <li><p>RTP时间戳：RTP时间戳是相对时间戳</p>
 </li>
 </ul>
-<p><strong>ntp****时间戳</strong></p>
+<p><strong>ntp时间戳</strong></p>
 <p>RTP的标准并没有规定音频、视频流的第一个包必须同时采集、发送，也就是说开始的一小段时间内可能只有音频或者视频，再加上可能的网络丢包，音频或者视频流的开始若干包可能丢失，那么不能简单认为接收端收到的第一个音频包和视频包是对齐的，需要一个共同的时间基准来做时间对齐，这就是NTP时间戳的作用。</p>
 <p>NTP时间戳是从1900年1月1日00:00:00以来经过的秒数，发送端以一定的频率发送SR(Sender Report)这个RTCP包，分为视频SR和音频SR，SR包内包含一个RTP时间戳和对应的NTP时间戳，接收端收到后就可以确定某个流的RTP时间戳和NTP时间戳的对应关系，这样音频、视频的时间戳就可以统一到同一个时间基准下。</p>
-<p><img src="https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=NTg4MDVkMTY2ODVmNmI0ODIyNTk2YTMyYmRkYzUxMjFfZ2E0b1dqVDgzeHVLRGw3T25sVVp5S0tkQUNNOG1HZHVfVG9rZW46Ym94Y25VbHZRc0owdWdrR2hHRll6YVJJZ0doXzE2Njk5ODUxNjE6MTY2OTk4ODc2MV9WNA" alt="img"></p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/(null)-20221202205556002.png" alt="img"></p>
 <p>如上图，发送端的音视频流并没有对齐，但是周期地发送SR包，接收端得到音视频SR包的RTP时间戳、NTP时间戳后通过线性回归得到NTP时间戳Tntp和RTP时间戳Trtp时间戳的对应关系：</p>
 <p>Tntp_audio &#x3D; f(Trtp_audio)</p>
 <p>Tntp_video &#x3D; f(Trtp_video)</p>
@@ -544,7 +544,7 @@ incoming_frame.set_timestamp(
 <p>(-, -185)U(+90, +) 影响体验</p>
 <p>音频延迟于视频的阈值，相比于音频提前于视频的阈值更高。这个主要原因是人眼总是先看到光然后再听到声音，我们逐渐形成了这样的一个习惯。我们在理解信息的时候，也总是先视觉再听觉。如果声音先于视频较多，那么我们可能就无法将声音和画面对应上来，很容易感觉到音视频不同步。</p>
 <h3><span id="不同步建模">不同步建模</span></h3><p>音视频不同步的根本原因在于，音视频的传输通过的是不同的数据流，不同数据流之间是独立传输与处理的，拥有独立的时间戳。在不做任何处理的情况下，各自处理的延迟差异也会导致不完全同步。</p>
-<p><img src="https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTI4NTBiMmE0ZmQwMzZhMTVlMDgyYzUwZWFiZTk0N2ZfSGhWcmpOVk15SkdwajZpbkRjSWNjUnhXaFdMbXY5aUZfVG9rZW46Ym94Y25wOWFWZjNqMk51V1ZIQjlJRXRXbkJkXzE2Njk5ODUxNjE6MTY2OTk4ODc2MV9WNA" alt="img"></p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/(null)-20221202205752737-20221202211122185.png" alt="img"></p>
 <p>如图所示，如果要处理音视频同步(同步的本质是，接收到数据后，根据数据能够计算出数据的需要的pts)。就需要处理好以下几个：</p>
 <ul>
 <li><p>获取接收端音视频数据绝对的ntp时间差。</p>
@@ -562,12 +562,12 @@ incoming_frame.set_timestamp(
   int current_diff_ms =current_video_delay_ms - current_audio_delay_ms + relative_delay_ms;
 </code></pre>
 <p>RelativeDelay相对时延，表示如下图所示：</p>
-<p><img src="https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDQwNThiZGY4NDFlZTY3ZWQyYTZjOTViNzdjMWM2YjZfejBOM05pNFRSVDQzZWQzRWQ4eDZacHNQbGhWd01iVGhfVG9rZW46Ym94Y252TUFodUlKbVdMZEFyYnE5V1psMHhnXzE2Njk5ODUxNjE6MTY2OTk4ODc2MV9WNA" alt="img"></p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/(null)-20221202205800266.png" alt="img"></p>
 <p>相对时延 &#x3D; 接收时间差 - 采集时间差。</p>
 <p>在webRTC中的rtp包中只能拿到rtp时间戳，但是接收端只能获取到接收端的本地时间戳，单位是ms，rtp的单位是采样步长，所以并不能直接使用，所以需要将rtp时间戳，转换成发送端为ms的单位，这时候就有了SR包，在接收端将数据包rtp时间戳映射为绝对的NTP时间戳。恰好RTCP SR的一个包里面有携带rtp timestamp和对应的NTP时间，SR包按照周期发送，接收端完全可以根据这些SR拟合出RTP timestamp和NTP timestamp的关系。这个转换由<code>RtpToNtpEstimator</code>完成。(这里其实并不关系发送时延)。</p>
 <p>$$$$相对延迟 &#x3D; (视频帧接收时间 - 音频帧接收时间) - （视频帧采集时间- 音频帧采集时间） $$$$</p>
 <p>可以看出，在webRTC中，都是将时间戳换算为发送端的NTP时间戳，再计算relativeDelay。</p>
-<p><img src="https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=ZGJiOTU4ZDFlMjcyMTU3NWFjNzkyM2I2YTM5NDA5NTBfUGV3ZUE2UldHcG4wT2lqRFFyekdUbE5qRDFiUzZlMzNfVG9rZW46Ym94Y25rdVVHYWltT2oxQmtEb3hicjEzNVhsXzE2Njk5ODUxNjE6MTY2OTk4ODc2MV9WNA" alt="img"></p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/(null)-20221202205805271.png" alt="img"></p>
 <p>​																													ntp转ntp</p>
 <h2><span id="音视频同步原理">音视频同步原理</span></h2><p>如果要做音视频同步，需要知道以下几个参数：</p>
 <ul>
