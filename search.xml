@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>大小端详解</title>
+      <link href="/2023/06/06/yu-yan/android/android-studio-yin-yong-di-san-fang-ku/"/>
+      <url>/2023/06/06/yu-yan/android/android-studio-yin-yong-di-san-fang-ku/</url>
+      
+        <content type="html"><![CDATA[<h1><span id="android-studio引用第三方库的方式">Android Studio引用第三方库的方式</span></h1><h2><span id="前言">前言</span></h2><p>这里描述的第三方库文件格式指的是</p><ol><li>so</li><li>aar</li></ol><p>so库介绍一种方法</p><p>Aar介绍两种方法</p><h2><span id="导入aar">导入aar</span></h2><h3><span id="libs目录下导入">libs目录下导入</span></h3><p>将 aar 包放入 library module 的 libs 目录下，然后在工程的 build.gradle 文件中加入如下代码：</p><pre><code>flatDir &#123; dirs &#39;libs&#39;, &#39;../moduleName/libs&#39; &#125;</code></pre><p>注：将 moduleName 替换为你自己的 library module 的 name.</p><p>然后在 module 的 build.gradle 文件中添加依赖：</p><pre><code>implementation(name: &#39;aar包名&#39;, ext: &#39;aar&#39;)</code></pre><h3><span id="模块导入">模块导入</span></h3><p><a href="https://www.jianshu.com/p/41df494803e6">参考</a></p><p>这种方式的思路是，先把 aar 包放入一个单独的文件夹中，然后我们再依赖这个文件夹就可以了，这个文件夹你也可以理解成一个特殊的 module。</p><p>先在工程目录下新建一个文件夹（和 app 同级），然后将你的 aar 包放入 这个文件夹，然后再新建一个 build.gradle 文件，在这个文件中添加下面两句：</p><pre><code>configurations.maybeCreate(&quot;default&quot;)artifacts.add(&quot;default&quot;, file(&#39;aar包名.aar&#39;))</code></pre><p>然后在你需要依赖的 library module 的 build.gradle 文件中添加依赖：</p><pre><code>implementation project(&#39;:存放aar包的文件夹&#39;)</code></pre><p>最后需要在setting.gradle文件中加入</p><pre><code>include(&#39;:module&#39;)</code></pre><p><a href="https://docs.gradle.org/current/userguide/dependency_management.html">api参考</a></p><p>这里解释一下主要的几个点含义：</p><ol><li>implementation后面字符串含义</li></ol><blockquote><pre class=" language-arduino"><code class="language-arduino">implementation 'com.example.android:app-magic:12.3'</code></pre></blockquote><p>这是远程二进制依赖，这是一个简写，展开就是：</p><pre class=" language-csharp"><code class="language-csharp">implementation <span class="token keyword">group</span><span class="token punctuation">:</span> <span class="token string">'com.example.android'</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'app-magic'</span><span class="token punctuation">,</span> version<span class="token punctuation">:</span> <span class="token string">'12.3'</span></code></pre><h2><span id="导入so">导入so</span></h2><ol><li>在app目录下创建libs目录</li><li>建立CPU架构文件目录</li><li>将so放置到对应CPU架构</li></ol><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pa56Iif56yU6K6w,size_20,color_FFFFFF,t_70,g_se,x_16.png" alt="在这里插入图片描述" style="zoom:33%;"><ol start="4"><li><p>在Module的build.gradle文件中添加</p><pre><code> sourceSets &#123;        main &#123;            jniLibs.srcDirs = [&quot;libs&quot;]         &#125;    &#125; //   jniLibs作用是告知AS, jniLibs资源所在的位置    packagingOptions &#123;        pickFirst &quot;*/armeabi-v7a/*.so&quot;        pickFirst &quot;*/arm64-v8a/*.so&quot;        pickFirst &quot;*/x86/*.so&quot;        pickFirst &quot;*/x86_64/*.so&quot;    &#125; // packagingOptions是java资源的选取选项，pickFirst代表的含义是遇到重复的首选获取文件列表</code></pre></li></ol><h2><span id="参考">参考</span></h2><p><a href="https://google.github.io/android-gradle-dsl/2.3/index.html">Android plugin DSL Reference</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> gradle </category>
+          
+          <category> android studio </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> gradle </tag>
+            
+            <tag> android studio </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>音视频同步</title>
       <link href="/2022/12/02/yin-shi-pin-ji-chu/rtc/yin-shi-pin-tong-bu/yin-shi-pin-tong-bu/"/>
       <url>/2022/12/02/yin-shi-pin-ji-chu/rtc/yin-shi-pin-tong-bu/yin-shi-pin-tong-bu/</url>
