@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="大小端详解, zhongsy_world">
+    <meta name="keywords" content="zhongsy_world">
     <meta name="description" content="分享日常学习文档以及资料">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>大小端详解 | zhongsy_world</title>
+    <title>zhongsy_world</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">大小端详解</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -429,33 +429,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/gradle/">
-                                <span class="chip bg-color">gradle</span>
-                            </a>
-                        
-                            <a href="/tags/android-studio/">
-                                <span class="chip bg-color">android studio</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/gradle/" class="post-category">
-                                gradle
-                            </a>
-                        
-                            <a href="/categories/gradle/android-studio/" class="post-category">
-                                android studio
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -464,7 +443,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-06-06
+                    2023-09-20
                 </div>
                 
 
@@ -473,7 +452,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    504
+                    3k
                 </div>
                 
 
@@ -490,70 +469,210 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1><span id="android-studio引用第三方库的方式">Android Studio引用第三方库的方式</span></h1><h2><span id="前言">前言</span></h2><p>这里描述的第三方库文件格式指的是</p>
-<ol>
-<li>so</li>
-<li>aar</li>
-</ol>
-<p>so库介绍一种方法</p>
-<p>Aar介绍两种方法</p>
-<h2><span id="导入aar">导入aar</span></h2><h3><span id="libs目录下导入">libs目录下导入</span></h3><p>将 aar 包放入 library module 的 libs 目录下，然后在工程的 build.gradle 文件中加入如下代码：</p>
-<pre><code>flatDir &#123; dirs &#39;libs&#39;, &#39;../moduleName/libs&#39; &#125;
-</code></pre>
-<p>注：将 moduleName 替换为你自己的 library module 的 name.</p>
-<p>然后在 module 的 build.gradle 文件中添加依赖：</p>
-<pre><code>implementation(name: &#39;aar包名&#39;, ext: &#39;aar&#39;)
-</code></pre>
-<h3><span id="模块导入">模块导入</span></h3><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/41df494803e6">参考</a></p>
-<p>这种方式的思路是，先把 aar 包放入一个单独的文件夹中，然后我们再依赖这个文件夹就可以了，这个文件夹你也可以理解成一个特殊的 module。</p>
-<p>先在工程目录下新建一个文件夹（和 app 同级），然后将你的 aar 包放入 这个文件夹，然后再新建一个 build.gradle 文件，在这个文件中添加下面两句：</p>
-<pre><code>configurations.maybeCreate(&quot;default&quot;)
-artifacts.add(&quot;default&quot;, file(&#39;aar包名.aar&#39;))
-</code></pre>
-<p>然后在你需要依赖的 library module 的 build.gradle 文件中添加依赖：</p>
-<pre><code>implementation project(&#39;:存放aar包的文件夹&#39;)
-</code></pre>
-<p>最后需要在setting.gradle文件中加入</p>
-<pre><code>include(&#39;:module&#39;)
-</code></pre>
-<p><a target="_blank" rel="noopener" href="https://docs.gradle.org/current/userguide/dependency_management.html">api参考</a></p>
-<p>这里解释一下主要的几个点含义：</p>
-<ol>
-<li>implementation后面字符串含义</li>
+                <h1><span id="makefile详解amp实战">Makefile详解&amp;实战</span></h1><hr>
+<p>title: Makefile详解&amp;实战<br>date: 2023-09-20 12:01:24<br>comments: true #是否可评论<br>toc: true #是否显示文章目录<br>categories:  #分类<br>    - CMake<br>tags:   #标签<br>    - CMake</p>
+<p>summary: CMake工作的流程已经原理介绍；CMake纠正错误心得</p>
+<hr>
+<p>[toc]</p>
+<h2><span id="什么是makefile">什么是Makefile</span></h2><p><code>makefile</code>是一种说明编译规则的文件，带来的好处就是&#x3D;&#x3D;自动化编译，极大提高开发的效率&#x3D;&#x3D;</p>
+<h2><span id="关于编译和链接">关于编译和链接</span></h2><p>无论是C耗时C++都需要把源文件编译成&#x3D;&#x3D;中间件&#x3D;&#x3D;，这个过程叫做&#x3D;&#x3D;编译&#x3D;&#x3D;</p>
+<p>然后将这些大量的中间文件链接合成一个&#x3D;&#x3D;可执行文件&#x3D;&#x3D;，这个过程叫做&#x3D;&#x3D;链接&#x3D;&#x3D;</p>
+<h2><span id="makefile文件命名和规则">Makefile文件命名和规则</span></h2><ol>
+<li><strong>文件命名</strong></li>
 </ol>
 <blockquote>
-<pre class=" language-arduino"><code class="language-arduino">implementation 'com.example.android:app-magic:12.3'
-</code></pre>
+<p>文件命名必须是<code>Makefile</code>或是<code>makefile</code>只能是这两种</p>
 </blockquote>
-<p>这是远程二进制依赖，这是一个简写，展开就是：</p>
-<pre class=" language-csharp"><code class="language-csharp">implementation <span class="token keyword">group</span><span class="token punctuation">:</span> <span class="token string">'com.example.android'</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'app-magic'</span><span class="token punctuation">,</span> version<span class="token punctuation">:</span> <span class="token string">'12.3'</span>
-</code></pre>
-<h2><span id="导入so">导入so</span></h2><ol>
-<li>在app目录下创建libs目录</li>
-<li>建立CPU架构文件目录</li>
-<li>将so放置到对应CPU架构</li>
+<ol start="2">
+<li>Makefile规则: 文件中可以有一个或多个规则</li>
 </ol>
-<img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5pa56Iif56yU6K6w,size_20,color_FFFFFF,t_70,g_se,x_16.png" alt="在这里插入图片描述" style="zoom:33%;">
-
-<ol start="4">
-<li><p>在Module的build.gradle文件中添加</p>
-<pre><code> sourceSets &#123;
-        main &#123;
-            jniLibs.srcDirs = [&quot;libs&quot;] 
-        &#125;
-    &#125;
- //   jniLibs作用是告知AS, jniLibs资源所在的位置
-    packagingOptions &#123;
-        pickFirst &quot;*/armeabi-v7a/*.so&quot;
-        pickFirst &quot;*/arm64-v8a/*.so&quot;
-        pickFirst &quot;*/x86/*.so&quot;
-        pickFirst &quot;*/x86_64/*.so&quot;
-    &#125;
- // packagingOptions是java资源的选取选项，pickFirst代表的含义是遇到重复的首选获取文件列表
+<pre><code>目标 ... : 依赖 ...
+    命令(shell命令)
+    ...
+    ...
+    ...
 </code></pre>
+<ul>
+<li><p>目标： 最终要生成的文件(伪目标除外)，可以使.o .i .s文件，也可以是可执行文件</p>
+</li>
+<li><p>依赖： 生成目标锁依赖的&#x3D;&#x3D;文件&#x3D;&#x3D;或者&#x3D;&#x3D;目标&#x3D;&#x3D;</p>
+</li>
+<li><p>命令： 通过执行命令对依赖进行操作生成目标</p>
+</li>
+</ul>
+<p><font color="red">Makefile中的掐规则一般都是为第一条规则服务的</font></p>
+<p><code>\</code>是换行符方便阅读</p>
+<h2><span id="基本原理"><font color="red">基本原理</font></span></h2><ol>
+<li><p>再命令执行前会检查依赖是否存在</p>
+<p>a. 如果存在，执行命令</p>
+<p>b. 如果不存在，向下检查其他规则，检查有没有一个规则用来生成这个依赖的，如果找到了，则执行该规则中的命令</p>
+</li>
+<li><p>检查更新</p>
+<p>a.如果依赖的时间比目标时间晚，需要重新生成目标</p>
+<p>b.如果依赖的时间比目标早，目标不需要进行更新，对应规则中的命令就不需要执行</p>
 </li>
 </ol>
-<h2><span id="参考">参考</span></h2><p><a target="_blank" rel="noopener" href="https://google.github.io/android-gradle-dsl/2.3/index.html">Android plugin DSL Reference</a></p>
+<h2><span id="变量-模式匹配-函数">变量、模式匹配、函数</span></h2><p><a target="_blank" rel="noopener" href="https://seisman.github.io/how-to-write-makefile/introduction.html">可以参考这个链接</a></p>
+<p><code>Makefile</code>支持三个通配符&#x3D;&#x3D;<code>*</code>  <code>?</code>  <code>~</code>&#x3D;&#x3D;与<code>shell</code>是一样的</p>
+<h3><span id="自动变量">自动变量</span></h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_33879812/article/details/104659349?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_utm_term-0&spm=1001.2101.3001.4242">链接</a></p>
+<p>简单使用时目标和依赖文件都是一系例的文件，那么我们如何书写一个命令来完成从不同的依赖文件生成相应的目标？因为在每一次的对模式规则的解析时，都会是不同的目标和依赖文件。自动化变量就是完成这个功能的</p>
+<ul>
+<li><code>$@</code>：表示规则中的目标文件集。在模式规则中，如果有多个目标，那么，”$@”就是匹配于目标中模式定义的集合。</li>
+<li><code>$%</code>：仅当目标是函数库文件中，表示规则中的目标成员名。例如，如果一个目标是”foo.a(bar.o)”，那么，”$%”就是”bar.o”，”$@”就是”foo.a”。如果目标不是函数库文件（Unix 下是[.a]，Windows 下是[.lib]），那么，其值为空。</li>
+<li><code>$&lt;</code>：依赖目标中的第一个目标名字。如果依赖目标是以模式（即”%”）定义的，那么”$&lt;”将是符合模式的一系列的文件集。注意，其是一个一个取出来的。</li>
+<li><code>$?</code>：所有比目标新的依赖目标的集合。以空格分隔。</li>
+<li><code>$^</code>：所有的依赖目标的集合。以空格分隔。如果在依赖目标中有多个重复的，那个这个变量会去除重复的依赖目标，只保留一份。</li>
+<li><code>$+</code>：这个变量很像”$^”，也是所有依赖目标的集合。只是它不去除重复的依赖目标。</li>
+<li><code>$*</code>：这个变量表示目标模式中”%”及其之前的部分。如果目标是”dir&#x2F;a.foo.b”，并且目标的模式是”a.%.b”，那么，”$<em>“的值就是”dir&#x2F;a.foo”。这个变量对于构造有关联的文件名是比较有较。如果目标中没有模式的定义，那么”$</em>“也就不能被推导出，但是，如果目标文件的后缀是make所识别的，那么”$<em>“就是除了后缀的那一部分。例如：如果目标是”foo.c”，因为”.c”是make所能识别的后缀名，所以，”$</em>“的值就是”foo”。这个特性是GNUmake的，很有可能不兼容于其它版本的 make，所以，你应该尽量避免使用”$<em>“，除非是在隐含规则或是静态模式中。如果目标中的后缀是 make 所不能识别的，那么”$</em>“就是空值。</li>
+<li><code>$(@D)</code>：表示 “$@”的 目录 部 分（ 不以斜杠作 为结尾 ）， 如 果”$@”值是”dir&#x2F;foo.o”，那么”$(@D)”就是”dir”，而如果”$@”中没有包含斜杠的话，其值就是”.”（当前目录）。</li>
+<li><code>$(@F)</code>：表示”$@”的文件部分，如果”$@”值是”dir&#x2F;foo.o”，那么”$(@F)”就是”foo.o”，”$(@F)”相当于函数”$(notdir $@)”。</li>
+<li><code>$(*D)</code>：和上面所述的同理，也是取文件的目录部分。对于上面的那个例子，”$(*D)”返回”dir”。</li>
+<li><code>$(*F)</code>：和上面所述的同理，也是取文件的文件部分。对于上面的那个例子，”$(*F)”返回”foo”。</li>
+<li><code>$(%D)</code>：表示了函数包文件成员的目录部分。这对于形同”archive(member)”形式的目标中的”member”中包含了不同的目录很有用。</li>
+<li><code>$(%F)</code>：表示了函数包文件成员的文件部分。这对于形同”archive(member)”形式的目标中的”member”中包含了不同的目录很有用。</li>
+<li><code>$(&lt;D)</code>：表示依赖文件的目录部分。</li>
+<li><code>$(&lt;F)</code>：表示依赖文件的文件部分。</li>
+<li><code>$(^D)</code>：表示所有依赖文件的目录部分。（无相同的）</li>
+<li><code>$(^F)</code>：表示所有依赖文件的文件部分。（无相同的）</li>
+<li><code>$(+D)</code>：表示所有依赖文件的目录部分。（可以有相同的）</li>
+<li><code>$(+F)</code>：所有依赖文件的文件部分。（可以有相同的）</li>
+<li><code>$(?D)</code>：表示被更新的依赖文件的目录部分。</li>
+<li><code>$(?F)</code>：表示被更新的依赖文件的文件部分。<br>最后，对于”$&lt;”，为了避免产生不必要的麻烦，最好给$后面的那个特定字符都加上圆括号，比如，”$(&lt; )”就要比”$&lt;”要好一些。</li>
+</ul>
+<h2><span id="伪目标">伪目标</span></h2><p>最早先的一个例子中，我们提到过一个<code>“clean”的目标</code>，这是一个“伪目标”，</p>
+<pre><code>clean:
+    rm *.o temp
+</code></pre>
+<p>正像我们前面例子中的“clean”一样，既然我们生成了许多文件编译文件，我们也应该提供一个清除它们的“目标”以备完整地重编译而用。 （以“make clean”来使用该目标）</p>
+<p>因为，我们并不生成“clean”这个文件。&#x3D;&#x3D;“伪目标”并不是一个文件，只是一个标签&#x3D;&#x3D;，由于“伪目标”不是文件，所&#x3D;&#x3D;以make无法生成它的依赖关系和决定它是否要执行。我们只有通过显式地指明这个“目标”才能让其生效&#x3D;&#x3D;。当然，&#x3D;&#x3D;“伪目标”的取名不能和文件名重名&#x3D;&#x3D;，不然其就失去了“伪目标”的意义了。</p>
+<p>当然，<font color="green">为了避免和文件重名的这种情况，我们可以使用一个特殊的标记“.PHONY”来显式地指明一个目标是“伪目标”，向make说明，不管是否有这个文件，这个目标就是“伪目标”。</font></p>
+<pre><code>.PHONY : clean
+</code></pre>
+<p>只要有这个声明，不管是否有“clean”文件，要运行“clean”这个目标，只有“make clean”这样。于是整个过程可以这样写：</p>
+<pre><code>.PHONY : clean
+clean :
+    rm *.o temp
+</code></pre>
+<p>伪目标一般没有依赖的文件。但是，我们也可以为伪目标指定所依赖的文件。伪目标同样可以作为“默认目标”，只要将其放在第一个。一个示例就是，如果你的&#x3D;&#x3D;Makefile需要一口气生成若干个可执行文件，但你只想简单地敲一个make完事，并且，所有的目标文件都写在一个Makefile中，那么你可以使用“伪目标”这个特性：&#x3D;&#x3D;</p>
+<pre><code>all : prog1 prog2 prog3
+.PHONY : all
+
+prog1 : prog1.o utils.o
+    cc -o prog1 prog1.o utils.o
+
+prog2 : prog2.o
+    cc -o prog2 prog2.o
+
+prog3 : prog3.o sort.o utils.o
+    cc -o prog3 prog3.o sort.o utils.o
+</code></pre>
+<p>我们知道，&#x3D;&#x3D;Makefile中的第一个目标会被作为其默认目标&#x3D;&#x3D;。我们声明了一个“all”的伪目标，其依赖于其它三个目标。&#x3D;&#x3D;由于默认目标的特性是，总是被执行的&#x3D;&#x3D;，但由于“all”又是一个伪目标，伪目标只是一个标签不会生成文件，所以不会有“all”文件产生。于是，其它三个目标的规则总是会被决议。也就达到了我们一口气生成多个目标的目的。 <code>.PHONY : all</code> 声明了“all”这个目标为“伪目标”。（注：这里的显式“.PHONY : all” 不写的话一般情况也可以正确的执行，这样make可通过隐式规则推导出， “all” 是一个伪目标，执行make不会生成“all”文件，而执行后面的多个目标。建议：显式写出是一个好习惯。）</p>
+<p>随便提一句，从上面的例子我们可以看出，目标也可以成为依赖。所以，伪目标同样也可成为依赖。看下面的例子：</p>
+<pre><code>.PHONY : cleanall cleanobj cleandiff
+
+cleanall : cleanobj cleandiff
+    rm program
+
+cleanobj :
+    rm *.o
+
+cleandiff :
+    rm *.diff
+</code></pre>
+<p>“make cleanall”将清除所有要被清除的文件。“cleanobj”和“cleandiff”这两个伪目标有点像“子程序”的意思。我们可以输入“make cleanall”和“make cleanobj”和“make cleandiff”命令来达到清除不同种类文件的目的。</p>
+<h2><span id="编译的过程">编译的过程</span></h2><p>编译的过程分为</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ahelloyou/article/details/118656624">链接</a></p>
+<h2><span id="makefile示例">Makefile示例</span></h2><pre class=" language-makefile"><code class="language-makefile"><span class="token symbol">app</span><span class="token punctuation">:</span>sub.c add.c mult.c div.c main.c
+    gcc sub.c add.c mult.c div.c main.c -o app
+</code></pre>
+<p>这里生成app目标， 依赖的是.c文件 命令是gcc命令</p>
+<pre class=" language-makefile"><code class="language-makefile"><span class="token symbol">app</span><span class="token punctuation">:</span>sub.o add.o mult.o div.o main.o
+    gcc sub.o add.o mult.o div.o main.o -o app
+
+<span class="token symbol">sub.o</span><span class="token punctuation">:</span>sub.c
+    gcc -c sub.c -o sub.o
+
+<span class="token symbol">add.o</span><span class="token punctuation">:</span>add.c
+    gcc -c add.c -o add.o
+
+<span class="token symbol">mult.o</span><span class="token punctuation">:</span>mult.c
+    gcc -c mult.c -o mult.o
+
+<span class="token symbol">div.o</span><span class="token punctuation">:</span>div.c
+    gcc -c div.c -o div.o
+
+<span class="token symbol">main.o</span><span class="token punctuation">:</span>main.c
+    gcc -c main.c -o main.o
+
+<span class="token comment" spellcheck="true"># 依赖.o文件没有向下寻找生成.o文件的规则</span>
+</code></pre>
+<pre class=" language-makefile"><code class="language-makefile"><span class="token comment" spellcheck="true">#定义变量</span>
+src<span class="token operator">=</span>sub.o add.o mult.o div.o main.o
+target<span class="token operator">=</span>app
+<span class="token symbol"><span class="token variable">$</span>(target)</span><span class="token punctuation">:</span><span class="token variable">$</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+    <span class="token variable">$</span><span class="token punctuation">(</span>CC<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span> -o <span class="token variable">$</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+
+<span class="token symbol">sub.o</span><span class="token punctuation">:</span>sub.c
+    gcc -c sub.c -o sub.o
+
+<span class="token symbol">add.o</span><span class="token punctuation">:</span>add.c
+    gcc -c add.c -o add.o
+
+<span class="token symbol">mult.o</span><span class="token punctuation">:</span>mult.c
+    gcc -c mult.c -o mult.o
+
+<span class="token symbol">div.o</span><span class="token punctuation">:</span>div.c
+    gcc -c div.c -o div.o
+
+<span class="token symbol">main.o</span><span class="token punctuation">:</span>main.c
+    gcc -c main.c -o main.o
+</code></pre>
+<pre class=" language-makefile"><code class="language-makefile"><span class="token comment" spellcheck="true">#定义变量</span>
+src<span class="token operator">=</span>sub.o add.o mult.o div.o main.o
+target<span class="token operator">=</span>app
+<span class="token symbol"><span class="token variable">$</span>(target)</span><span class="token punctuation">:</span><span class="token variable">$</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span>
+    <span class="token variable">$</span><span class="token punctuation">(</span>CC<span class="token punctuation">)</span> <span class="token variable">$</span><span class="token punctuation">(</span>src<span class="token punctuation">)</span> -o <span class="token variable">$</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+
+<span class="token symbol">%.o</span><span class="token punctuation">:</span>%.c
+    <span class="token variable">$</span><span class="token punctuation">(</span>CC<span class="token punctuation">)</span> -c <span class="token variable">$&lt;</span> -o <span class="token variable">$@</span>
+<span class="token comment" spellcheck="true"># 使用变量和自动变量</span>
+</code></pre>
+<h2><span id="makefile项目实战">MakeFile项目实战</span></h2><p>主要展示makefile是如何一步步起作用的</p>
+<ol>
+<li>执行cmake ..</li>
+<li>查看cmake</li>
+</ol>
+<pre><code>src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc.o:
+    $(MAKE) $(MAKESILENT) -f CMakeFiles/perf_control_module.dir/build.make CMakeFiles/perf_control_module.dir/src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc.o
+.PHONY : src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc.o
+</code></pre>
+<p>可知make -f的含义是Read File as a make file</p>
+<p><img src="https://zhongsy.oss-cn-beijing.aliyuncs.com/img/image-20230920114923677.png" alt="image-20230920114923677"></p>
+<ol start="3">
+<li>找到对应的makefile中的targey</li>
+</ol>
+<pre><code>CMakeFiles/perf_control_module.dir/src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc.o: CMakeFiles/perf_control_module.dir/flags.make
+CMakeFiles/perf_control_module.dir/src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc.o: /Users/bytedance/Documents/Code/PerfControlModule/src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc
+CMakeFiles/perf_control_module.dir/src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc.o: CMakeFiles/perf_control_module.dir/compiler_depend.ts
+// 上面是依赖， 下面是命令
+    @$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/bytedance/Documents/Code/PerfControlModule/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) &quot;Building CXX object CMakeFiles/perf_control_module.dir/src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc.o&quot;
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/perf_control_module.dir/src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc.o -MF CMakeFiles/perf_control_module.dir/src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc.o.d -o CMakeFiles/perf_control_module.dir/src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc.o -c /Users/bytedance/Documents/Code/PerfControlModule/src/perf_control/perf_monitor_unit/cpu_perf_monitor_unit.cc
+</code></pre>
+<p>这里就可以找到最终执行的命令 cmake -E是为了覆盖环境变量，最后由c++命令进行编译构建。</p>
+<p>像${CXX_INCLUDES}的位置在下面文件中</p>
+<pre><code>include CMakeFiles/perf_control_module.dir/flags.make
+</code></pre>
+<p>具体内容如下</p>
+<pre><code># CMAKE generated file: DO NOT EDIT!
+# Generated by &quot;Unix Makefiles&quot; Generator, CMake Version 3.25
+
+# compile CXX with /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++
+CXX_DEFINES = -Dperf_control_module_EXPORTS
+
+CXX_INCLUDES = -I/Users/bytedance/Documents/Code/PerfControlModule/src -I/Users/bytedance/Documents/Code/PerfControlModule/src/third_party/spdlog/include
+
+CXX_FLAGS =  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fPIC -std=gnu++11
+</code></pre>
 
                 
             </div>
@@ -580,7 +699,7 @@ artifacts.add(&quot;default&quot;, file(&#39;aar包名.aar&#39;))
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zhongsy-zsy.github.io/2023/06/06/yu-yan/android/android-studio-yin-yong-di-san-fang-ku/">http://zhongsy-zsy.github.io/2023/06/06/yu-yan/android/android-studio-yin-yong-di-san-fang-ku/</a>
+                    <a href="http://zhongsy-zsy.github.io/2023/09/20/yu-yan/cmake/makefile-xiang-jie-shi-zhan/">http://zhongsy-zsy.github.io/2023/09/20/yu-yan/cmake/makefile-xiang-jie-shi-zhan/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -617,15 +736,7 @@ artifacts.add(&quot;default&quot;, file(&#39;aar包名.aar&#39;))
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/gradle/">
-                                    <span class="chip bg-color">gradle</span>
-                                </a>
-                            
-                                <a href="/tags/android-studio/">
-                                    <span class="chip bg-color">android studio</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -930,9 +1041,10 @@ artifacts.add(&quot;default&quot;, file(&#39;aar包名.aar&#39;))
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2023/09/20/yu-yan/cmake/makefile-xiang-jie-shi-zhan/">
                     <div class="card-image">
@@ -950,9 +1062,9 @@ artifacts.add(&quot;default&quot;, file(&#39;aar包名.aar&#39;))
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-09-20
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-09-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -961,6 +1073,7 @@ artifacts.add(&quot;default&quot;, file(&#39;aar包名.aar&#39;))
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -971,35 +1084,35 @@ artifacts.add(&quot;default&quot;, file(&#39;aar包名.aar&#39;))
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/12/02/yin-shi-pin-ji-chu/rtc/yin-shi-pin-tong-bu/yin-shi-pin-tong-bu/">
+                <a href="/2023/06/06/yu-yan/android/android-studio-yin-yong-di-san-fang-ku/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="音视频同步">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="大小端详解">
                         
-                        <span class="card-title">音视频同步</span>
+                        <span class="card-title">大小端详解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            webrtc 音视频同步原理
+                            android stduio 导入第三方库方式
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-12-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-06-06
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%A4%9A%E5%AA%92%E4%BD%93%E6%8A%80%E6%9C%AF/" class="post-category">
-                                    多媒体技术
+                            <a href="/categories/gradle/" class="post-category">
+                                    gradle
                                 </a>
                             
-                            <a href="/categories/%E5%A4%9A%E5%AA%92%E4%BD%93%E6%8A%80%E6%9C%AF/WebRTC/" class="post-category">
-                                    WebRTC
+                            <a href="/categories/gradle/android-studio/" class="post-category">
+                                    android studio
                                 </a>
                             
                             
@@ -1009,8 +1122,12 @@ artifacts.add(&quot;default&quot;, file(&#39;aar包名.aar&#39;))
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/webRTC/">
-                        <span class="chip bg-color">webRTC</span>
+                    <a href="/tags/gradle/">
+                        <span class="chip bg-color">gradle</span>
+                    </a>
+                    
+                    <a href="/tags/android-studio/">
+                        <span class="chip bg-color">android studio</span>
                     </a>
                     
                 </div>
